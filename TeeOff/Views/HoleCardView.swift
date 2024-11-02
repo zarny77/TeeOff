@@ -31,13 +31,8 @@ struct HoleCardView: View {
         RoundedRectangle(cornerRadius: 12)
             .fill(Color(UIColor.secondarySystemBackground))
             .aspectRatio(1.0, contentMode: ContentMode.fit)
-            
             .overlay(
-                
-                
-                
                 HStack {
-                    
                     // left spacer
                     Spacer()
                     
@@ -47,15 +42,17 @@ struct HoleCardView: View {
                             .font(.system(size: 60))
                             .fontWeight(.heavy)
                             .foregroundStyle(.green)
+                            .padding(.vertical, -1.0)
+                        
                         Text("Par: " + String(hole.par))
                             .font(.title3)
                             .fontWeight(.bold)
+                            .padding(.vertical, -20.0)
                         
                         YardageView(yds: hole.blues, pin: Color.blue)
                         YardageView(yds: hole.whites, pin: Color.white)
                         YardageView(yds: hole.reds, pin: Color.red)
                     })
-                    
                     // middle spacer
                     Spacer()
                     
@@ -67,23 +64,25 @@ struct HoleCardView: View {
                         
                         // buttons
                         HStack {
-                            // add
-                            Button("Add Stroke", systemImage: "minus.circle.fill", action:
+                            
+                            // subtract left
+                            Button("Subtract Stroke", systemImage: "minus.circle.fill", action:
                                     {
                                 self.score -= 1
                                 })
                             .font(.largeTitle)
                                 .labelStyle(.iconOnly)
-                            // subtract
-                            Button("Subtract Stroke", systemImage: "plus.circle.fill", action:
+                            
+                            // add right
+                            Button("Add Stroke", systemImage: "plus.circle.fill", action:
                                     {
                                 self.score += 1
                                 })
                             .font(.largeTitle)
                                 .labelStyle(.iconOnly)
                         }
+                        
                     })
-                    
                     // right spacer
                     Spacer()
                 })

@@ -29,7 +29,7 @@ let sbgc18: hole = hole(id: 18, par: 4, blues: 340, whites: 326, reds: 312)
 
 let sbgcHoles: [hole] = [sbgc1,sbgc2,sbgc3,sbgc4,sbgc5,sbgc6,sbgc7,sbgc8,sbgc9,sbgc10,sbgc11,sbgc12,sbgc13,sbgc14,sbgc15,sbgc16,sbgc17,sbgc18]
 
-let StB: course = course(name: "St. Boniface GC",
+let StB: course = course(id: "St. Boniface GC",
                          address: "100 Rue Youville, Winnipeg, MB",
                          blues: 6348,
                          whites: 6104,
@@ -39,8 +39,8 @@ let StB: course = course(name: "St. Boniface GC",
 
 struct ScorecardView: View {
         
-    // define column numbers
-    let columnLayout = Array(repeating: GridItem(), count: 2)
+    // define column count and spacing
+    let columnLayout = Array(repeating: GridItem(.flexible(), spacing: 10), count: 2)
     
     var course: course
     
@@ -51,16 +51,18 @@ struct ScorecardView: View {
     var body: some View {
         
         // course name header
-        Text(course.name)
+        Text(course.id)
             .font(.title)
             .fontWeight(.bold)
-        // 
+        
+        // hole chip generator
         ScrollView {
-            LazyVGrid(columns: columnLayout) {
+            LazyVGrid(columns: columnLayout, spacing: 10, content:  {
                 ForEach(course.holes) { hole in
                     HoleCardView(hole: hole)
                 }
-            }
+            })
+            .padding(.horizontal, 10)
         }
     }
 }

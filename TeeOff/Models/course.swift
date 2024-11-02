@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct course {
+struct course: Identifiable {
     
-    var name: String
+    var id: String
     var address: String
     var blues: Int
     var whites: Int
@@ -17,8 +17,8 @@ struct course {
     var par: Int
     var holes: [hole] = []
     
-    init(name: String, address: String, blues: Int, whites: Int, reds: Int, par: Int, holes: [hole]) {
-        self.name = name
+    init(id: String, address: String, blues: Int, whites: Int, reds: Int, par: Int, holes: [hole]) {
+        self.id = id
         self.address = address
         self.blues = blues
         self.whites = whites
