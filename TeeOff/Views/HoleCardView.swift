@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-var test = hole(num: 18, par: 3, blues: 200, whites: 180, reds: 150)
+var test = hole(id: 18, par: 3, blues: 200, whites: 180, reds: 150)
 
 struct HoleCardView: View {
     
@@ -43,9 +43,10 @@ struct HoleCardView: View {
                     
                     // left stack: hole #, par, yardages
                     VStack(alignment: .leading, content: {
-                        Text(String(hole.num))
-                            .font(.largeTitle)
+                        Text(String(hole.id))
+                            .font(.system(size: 60))
                             .fontWeight(.heavy)
+                            .foregroundStyle(.green)
                         Text("Par: " + String(hole.par))
                             .font(.title3)
                             .fontWeight(.bold)
@@ -59,24 +60,26 @@ struct HoleCardView: View {
                     Spacer()
                     
                     // right stack: score and buttons
-                    VStack(alignment: .trailing, content: {
+                    VStack(alignment: .center, content: {
                         Text(String(score))
-                            .font(.largeTitle)
+                            .font(.system(size: 100))
                             .fontWeight(.black)
                         
                         // buttons
                         HStack {
                             // add
-                            Button("Add Stroke", systemImage: "arrow.up.circle", action:
-                                    {
-                                self.score += 1
-                                })
-                                .labelStyle(.iconOnly)
-                            // subtract
-                            Button("Subtract Stroke", systemImage: "arrow.down.circle", action:
+                            Button("Add Stroke", systemImage: "minus.circle.fill", action:
                                     {
                                 self.score -= 1
                                 })
+                            .font(.largeTitle)
+                                .labelStyle(.iconOnly)
+                            // subtract
+                            Button("Subtract Stroke", systemImage: "plus.circle.fill", action:
+                                    {
+                                self.score += 1
+                                })
+                            .font(.largeTitle)
                                 .labelStyle(.iconOnly)
                         }
                     })

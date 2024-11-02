@@ -27,7 +27,7 @@ struct YardageView: View {
                 .fill(pin)
                 .frame(width: 10, height: 10)
             Text(String(yds))
-                .font(.caption)
+                .font(.footnote)
         }
     }
 }
