@@ -38,29 +38,38 @@ struct HoleCardView: View {
                     
                     // left stack: hole #, par, yardages
                     VStack(alignment: .leading, content: {
+                        
+//                        Spacer()
+                        
                         Text(String(hole.id))
                             .font(.system(size: 60))
                             .fontWeight(.heavy)
                             .foregroundStyle(.green)
-                            .padding(.vertical, -1.0)
+                        
+//                        Spacer()
                         
                         Text("Par: " + String(hole.par))
                             .font(.title3)
                             .fontWeight(.bold)
-                            .padding(.vertical, -20.0)
                         
                         YardageView(yds: hole.blues, pin: Color.blue)
                         YardageView(yds: hole.whites, pin: Color.white)
                         YardageView(yds: hole.reds, pin: Color.red)
+                        
+                        Spacer()
                     })
                     // middle spacer
                     Spacer()
                     
                     // right stack: score and buttons
                     VStack(alignment: .center, content: {
+                        
+                        
                         Text(String(score))
                             .font(.system(size: 100))
                             .fontWeight(.black)
+                        
+                        Spacer()
                         
                         // buttons
                         HStack {
@@ -80,9 +89,11 @@ struct HoleCardView: View {
                                 })
                             .font(.largeTitle)
                                 .labelStyle(.iconOnly)
+                                
                         }
-                        
+                        Spacer()
                     })
+                    .padding(.vertical, 30)
                     // right spacer
                     Spacer()
                 })

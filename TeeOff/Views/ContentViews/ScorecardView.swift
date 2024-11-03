@@ -37,6 +37,8 @@ let StB: course = course(id: "St. Boniface GC",
                          par: 72,
                          holes: sbgcHoles)
 
+let courseList: [course] = [StB]
+
 struct ScorecardView: View {
         
     // define column count and spacing

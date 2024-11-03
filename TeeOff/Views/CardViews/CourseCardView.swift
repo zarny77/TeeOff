@@ -19,13 +19,12 @@ struct CourseCardView: View {
     var body: some View {
         RoundedRectangle(cornerRadius: 12)
             .fill(Color(UIColor.secondarySystemBackground))
-            .aspectRatio(2.25, contentMode: ContentMode.fit)
+            .aspectRatio(2.5, contentMode: ContentMode.fit)
+            .padding(.horizontal, 10)
             .overlay(
                 
                 // Title and yardages left, par and view SC right
-                HStack{
-                    
-//                    Spacer() // left brace
+                HStack(content: {
                     
                     // Title and yardages
                     VStack(alignment: .leading, content: {
@@ -36,15 +35,16 @@ struct CourseCardView: View {
                         VStack(alignment: .leading, content: {
                             Text(course.id)
                                 .font(.title2)
-                                .fontWeight(.semibold)
+                                .fontWeight(.heavy)
                                 .multilineTextAlignment(.leading)
                                 .frame(alignment: .topLeading)
                             Text(course.address)
                                 .multilineTextAlignment(.leading)
                                 .font(.caption)
+                                .fontWeight(.bold)
                         })
                         
-                        Spacer() // middle brace
+//                        Spacer() // middle brace
                         
                         // yardages
                         VStack(alignment: .leading, content: {
@@ -54,39 +54,48 @@ struct CourseCardView: View {
                             YardageView(yds: course.reds, pin: Color.red)
                             
                         })
-                        .padding(.trailing, 125.0)
-                        
-                        Spacer() // bottom brace
+                        // bottom brace
+                        Spacer()
                     })
                     
-                    
+                    // middle spacer
                     Spacer()
                     
                     // par & scorecard sections
-                    VStack (alignment: .trailing, content: {
+                    VStack (alignment: .center, content: {
                         
+                        // top brace
                         Spacer()
                         
                         Text("Par " + String(course.par))
                             .font(.title)
                             .fontWeight(.medium)
                             .frame(alignment: .topTrailing)
-                            .padding(.bottom, 55.0)
+//                            .padding(.bottom, 55.0)
                         
                         Spacer()
                         
-                        Button("Play Golf!", systemImage: "figure.golf.circle.fill", action:{})
-                            .font(.largeTitle)
-                            .labelStyle(.iconOnly)
+                        HStack{
+                            
+                            Button("Play Golf!", systemImage: "menucard", action:{})
+                                .font(.system(size: 35))
+                                .labelStyle(.iconOnly)
+                            
+                            Button("Play Golf!", systemImage: "figure.golf.circle", action:{})
+                                .font(.system(size: 40))
+                                .labelStyle(.iconOnly)
+                        }
                         
+                        // bottom brace
                         Spacer()
-                    }) // par & SC
-                
-//                    Spacer()
-                }) // overlay
+                    })
+                    
+                })
+                .padding(.horizontal, 25)
+            ) // overlay
     }
 }
-
 #Preview {
     CourseCardView(course: StB)
 }
+
