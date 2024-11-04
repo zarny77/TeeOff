@@ -8,10 +8,7 @@
 import Foundation
 import SwiftUI
 
-var test = hole(id: 18, par: 3, blues: 200, whites: 180, reds: 150)
-
 struct HoleCardView: View {
-    
     
     var hole: hole
     
@@ -101,5 +98,5 @@ struct HoleCardView: View {
 }
 
 #Preview {
-    HoleCardView(hole: test)
+    HoleCardView(hole: sbgcHoles[0])
 }

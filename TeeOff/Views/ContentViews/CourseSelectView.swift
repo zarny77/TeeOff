@@ -12,22 +12,25 @@ import SwiftUI
 struct CourseSelectView: View {
     
     let courseList: [course]
+    @State private var searchText = ""
 
     init(courseList: [course]) {
         self.courseList = courseList
     }
     
     var body: some View {
-        ScrollView {
-            HStack (spacing: 10, content: {
-                ForEach(courseList) { course in
-                    CourseCardView(course: course)
-                }
-            })
-        }
+        
+            
+            ScrollView {
+                VStack (spacing: 10, content: {
+                    ForEach(courseList) { course in
+                        CourseCardView(course: course)
+                    }
+                })
+            }
     }
 }
 
 #Preview {
-                CourseSelectView(courseList: courseList)
+        CourseSelectView(courseList: courseList)
 }
