@@ -36,7 +36,7 @@ struct HoleCardView: View {
                     // left stack: hole #, par, yardages
                     VStack(alignment: .leading, content: {
                         
-//                        Spacer()
+                        Spacer()
                         
                         Text(String(hole.id))
                             .font(.system(size: 60))
@@ -45,6 +45,7 @@ struct HoleCardView: View {
                         
 //                        Spacer()
                         
+                        // par and yardages
                         Text("Par: " + String(hole.par))
                             .font(.title3)
                             .fontWeight(.bold)
@@ -61,12 +62,13 @@ struct HoleCardView: View {
                     // right stack: score and buttons
                     VStack(alignment: .center, content: {
                         
+                        Spacer()
                         
                         Text(String(score))
                             .font(.system(size: 100))
                             .fontWeight(.black)
                         
-                        Spacer()
+//                        Spacer()
                         
                         // buttons
                         HStack {

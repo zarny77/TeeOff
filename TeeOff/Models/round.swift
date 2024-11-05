@@ -12,3 +12,16 @@
  
 
 import Foundation
+
+
+struct round {
+    let score: Int
+    let date: Date
+    let scorecard: ScorecardView
+    
+    init(score: Int, date: Date, scorecard: ScorecardView) {
+        self.score = score
+        self.date = Date()
+        self.scorecard = scorecard
+    }
+}
