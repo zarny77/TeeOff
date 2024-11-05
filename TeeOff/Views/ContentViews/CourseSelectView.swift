@@ -5,6 +5,13 @@
 //  Created by Dylan Zarn on 2024-11-03.
 //
 
+
+/*
+ TODO: Fix hole chips centering
+ TODO: Fill out round struct
+ TODO: build out stats view
+ TODO: Organize content view
+ */
 import SwiftUI
 
 
