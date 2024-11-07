@@ -15,11 +15,14 @@ import Foundation
 
 
 struct round {
+    
+    let course: course
     let score: Int
     let date: Date
     let scorecard: ScorecardView
     
-    init(score: Int, date: Date, scorecard: ScorecardView) {
+    init(course: course, score: Int, date: Date, scorecard: ScorecardView) {
+        self.course = course
         self.score = score
         self.date = Date()
         self.scorecard = scorecard

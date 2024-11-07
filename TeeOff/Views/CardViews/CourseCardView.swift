@@ -44,8 +44,6 @@ struct CourseCardView: View {
                                 .fontWeight(.bold)
                         })
                         
-//                        Spacer() // middle brace
-                        
                         // yardages
                         VStack(alignment: .leading, content: {
                             
@@ -71,7 +69,6 @@ struct CourseCardView: View {
                             .font(.title)
                             .fontWeight(.medium)
                             .frame(alignment: .topTrailing)
-//                            .padding(.bottom, 55.0)
                         
                         Spacer()
                         
