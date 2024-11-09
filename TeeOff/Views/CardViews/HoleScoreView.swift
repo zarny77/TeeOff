@@ -60,32 +60,32 @@ struct HoleScoreView: View {
                     VStack(alignment: .center, content: {
                         
                         Spacer()
-                        
+                        HStack{
+                            Spacer()
+                            if( score > hole.par )
+                            {
+                                Text("+" + String(score-hole.par))
+                                    .multilineTextAlignment(.trailing)
+                                    .foregroundStyle(.red)
+                                    .font(.title)
+                                    .fontWeight(.heavy)
+                                
+                            }
+                            else
+                            {
+                                Text("-" + String(hole.par-score))
+                                    .multilineTextAlignment(.trailing)
+                                    .foregroundStyle(.green)
+                                    .font(.title)
+                                    .fontWeight(.heavy)
+                            }
+                        }
                         Text(String(score))
                             .font(.system(size: 100))
                             .fontWeight(.black)
                         
                         
-                        // buttons
-                        HStack {
-                            
-                            // subtract left
-                            Button("Subtract Stroke", systemImage: "minus.circle.fill", action:
-                                    {
-                                self.score -= 1
-                                })
-                            .font(.largeTitle)
-                                .labelStyle(.iconOnly)
-                            
-                            // add right
-                            Button("Add Stroke", systemImage: "plus.circle.fill", action:
-                                    {
-                                self.score += 1
-                                })
-                            .font(.largeTitle)
-                                .labelStyle(.iconOnly)
-                                
-                        }
+
                         Spacer()
                     })
                     .padding(.vertical, 30)
@@ -96,5 +96,5 @@ struct HoleScoreView: View {
 }
 
 #Preview {
-    HoleCardView(hole: sbgcHoles[0])
+    HoleScoreView(hole: sbgcHoles[0], score: 3)
 }
