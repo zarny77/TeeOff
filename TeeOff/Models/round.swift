@@ -13,7 +13,7 @@ struct round {
     var scores: [Int] = []
     let date: Date
     
-    init(course: course, date: Date) {
+    init(course: course) {
         self.course = course
         self.date = Date()
     }
