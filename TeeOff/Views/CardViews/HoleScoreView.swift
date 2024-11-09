@@ -8,17 +8,15 @@
 import Foundation
 import SwiftUI
 
-struct HoleCardView: View {
+struct HoleScoreView: View {
     
     var hole: hole
-    
-    // determine if this can be saved / added later on
-    @State var score: Int
+    let score: Int
 
     
-    init(hole: hole) {
+    init(hole: hole, score: Int) {
         self.hole = hole
-        self.score = hole.par
+        self.score = score
     }
     
     
