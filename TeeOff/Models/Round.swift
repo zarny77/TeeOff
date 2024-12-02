@@ -6,14 +6,15 @@
 //
 
 import Foundation
+import SwiftUI
 
-struct round {
-    
-    let course: course
+struct Round: Identifiable, Codable {
+    let id: UUID
+    let course: Course
     var scores: [Int] = []
     let date: Date
     
-    init(course: course) {
+    init(course: Course) {
         self.course = course
         self.date = Date()
     }

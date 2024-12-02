@@ -10,11 +10,11 @@ import SwiftUI
 
 struct HoleScoreView: View {
     
-    var hole: hole
+    var hole: Hole
     let score: Int
 
     
-    init(hole: hole, score: Int) {
+    init(hole: Hole, score: Int) {
         self.hole = hole
         self.score = score
     }

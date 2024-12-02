@@ -10,11 +10,8 @@ import SwiftUI
 
 struct CourseCardView: View {
     
-    let course: course
+    @ObservedObject var viewModel: CourseCardViewModel
     
-    init(course: course) {
-        self.course = course
-    }
     
     var body: some View {
         RoundedRectangle(cornerRadius: 12)
@@ -33,28 +30,19 @@ struct CourseCardView: View {
                         
                         // title
                         VStack(alignment: .leading, content: {
-                            Text(course.id)
+                            Text(viewModel.name)
                                 .font(.title2)
                                 .fontWeight(.heavy)
                                 .multilineTextAlignment(.leading)
                                 .frame(alignment: .topLeading)
-                            Text(course.address)
+                            Text(viewModel.address)
                                 .multilineTextAlignment(.leading)
                                 .font(.caption)
                                 .fontWeight(.bold)
+                            ForEach(viewModel.yardageData, id: \.0) {
+                                yardage, color in YardageView(yds: yardage, pin: color)
+                            }
                         })
-                        
-                        // yardages
-                        VStack(alignment: .leading, content: {
-                            
-                            YardageView(yds: course.blues, pin: Color.blue)
-                            YardageView(yds: course.whites, pin: Color.white)
-                            YardageView(yds: course.reds, pin: Color.red)
-                            
-                        })
-                        // bottom brace
-                        Spacer()
-                    })
                     
                     // middle spacer
                     Spacer()

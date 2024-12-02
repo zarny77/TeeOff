@@ -10,13 +10,13 @@ import SwiftUI
 
 struct HoleCardView: View {
     
-    var hole: hole
+    var hole: Hole
     
     // determine if this can be saved / added later on
     @State var score: Int
 
     
-    init(hole: hole) {
+    init(hole: Hole) {
         self.hole = hole
         self.score = hole.par
     }

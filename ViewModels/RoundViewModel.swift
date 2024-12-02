@@ -8,11 +8,11 @@
 import Foundation
 
 class RoundViewModel: ObservableObject {
-    @Published private(set) var round: round
+    @Published private(set) var round: Round
     
-    init(course: course)
+    init(course: Course)
     {
-        self.round = TeeOff.round(course: course)
+        self.round = TeeOff.Round(course: course)
     }
     
     var scores: [Int] {round.scores}
