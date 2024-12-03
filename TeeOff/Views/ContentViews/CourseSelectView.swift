@@ -9,31 +9,50 @@
 
 import SwiftUI
 
-
-
 struct CourseSelectView: View {
     
-    let courseList: [Course]
+    private let courses: [Course] = CourseRepository.shared.courses
     @State private var searchText = ""
 
-    init(courseList: [Course]) {
-        self.courseList = courseList
+    private var filteredCourses: [Course] {
+        if searchText.isEmpty {
+            return courses
+        }
+        return courses.filter { course in
+            course.id.localizedCaseInsensitiveContains(searchText) ||
+            course.address.localizedCaseInsensitiveContains(searchText)
+        }
     }
     
     var body: some View {
-        
-        
-        ScrollView(content: {
-            VStack (spacing: 10, content: {
-                ForEach(courseList) { course in
-                    CourseCardView(course: course)
+        ScrollView {
+            VStack (spacing: 10) {
+                ForEach(filteredCourses) { course in
+                    CourseCardView(viewModel: CourseCardViewModel(course: course))
                 }
-            })
-        })
-   }
+            }
+        }
+        .navigationTitle("Select Course")
+        .searchable(text: $searchText, prompt: "Search courses")
+    }
+    
+    // MARK: - Subviews
+    
+    private var searchBar: some View {
+        HStack {
+            Image(systemName: "magnifyingglass")
+                .foregroundStyle(.primary)
+            
+            TextField("Search courses", text: $searchText)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+        }
+        .padding(.horizontal)
+    }
     
 }
 
 #Preview {
-        CourseSelectView(courseList: courseList)
+    NavigationView {
+        CourseSelectView()
+    }
 }
