@@ -37,5 +37,5 @@ struct ScorecardView: View {
 }
 
 #Preview {
-    ScorecardView(course: Maplewood)
+    ScorecardView(course: PreviewData.Courses.sample)
 }
