@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct CourseCardViewModel  {
-    private let course: Course
+    let course: Course
     
     init(course: Course) {
         self.course = course
