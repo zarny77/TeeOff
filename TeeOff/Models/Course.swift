@@ -1,6 +1,8 @@
 //
-//  course.swift
+//  Course.swift
 //  TeeOff
+//
+//  The model for the Course DS. 
 //
 //  Created by Dylan Zarn on 2024-11-01.
 //
@@ -41,7 +43,7 @@ struct Course: Identifiable, Codable, Equatable {
         holes.reduce(0) { $0 + $1.reds }
     }
     
-    // Course yardage front 9
+    // Course yardage totals front 9
     
     var frontBlues: Int {
         holes.prefix(9).reduce(0) { $0 + $1.blues }
@@ -55,7 +57,7 @@ struct Course: Identifiable, Codable, Equatable {
         holes.prefix(9).reduce(0) { $0 + $1.reds }
     }
     
-    // Course yardage back 9
+    // Course yardage totals back 9
     
     var backBlues: Int {
         holes.suffix(9).reduce(0) { $0 + $1.blues }

@@ -8,14 +8,31 @@
 import Foundation
 import SwiftUI
 
-@Published
 struct CourseCardViewModel  {
-    let course: Course
+    private let course: Course
+    
+    init(course: Course) {
+        self.course = course
+    }
     
     var name: String { course.id }
     var address: String { course.address }
-    var parText: String { "Par \(course.par)" }
-    var yardageData: [(Int, Color)] {
-        [(course.blues, .blue), (course.whites, .white), (course.reds, .red)]
+    
+    var parDisplay: String { "Par \(course.par)"}
+    
+    var blues: Int { course.blues }
+    var whites: Int { course.whites }
+    var reds: Int { course.reds }
+    
+    var yardages: [(yardage: Int, color: Color)] {
+        [
+            (course.blues, .blue),
+            (course.whites, .white),
+            (course.reds, .red)
+        ]
     }
+    
+    var frontPar: Int { course.frontPar }
+    var backPar: Int { course.backPar }
+    
 }

@@ -1,5 +1,5 @@
 //
-//  courseList.swift
+//  CourseRepository.swift
 //  TeeOff
 //
 //  Created by Dylan Zarn on 2024-11-03.
@@ -8,18 +8,21 @@
 import Foundation
 
 struct CourseRepository {
+    
     static let shared = CourseRepository()
     
     private init() {}
     
     let courses: [Course] = [
-        
+        .stBoniface,
+        .southside,
+        .maplewood
     ]
 }
 
-// St. Boniface Golf Course
-
 private extension Course {
+    
+    // St. Boniface Golf Course
     static var stBoniface: Course {
         Course(
             id: "St. Boniface GC",
@@ -51,6 +54,7 @@ private extension Course {
         )
     }
     
+    // Southside Golf Course
     static var southside: Course {
         Course(
             id: "Southside Golf Course",
@@ -82,6 +86,7 @@ private extension Course {
         )
     }
     
+    // Maplewood Golf Club
     static var maplewood: Course {
         Course(
             id: "Maplewood Golf Club",

@@ -12,7 +12,6 @@ struct CourseCardView: View {
     
     @ObservedObject var viewModel: CourseCardViewModel
     
-    
     var body: some View {
         RoundedRectangle(cornerRadius: 12)
             .fill(Color(UIColor.secondarySystemBackground))
