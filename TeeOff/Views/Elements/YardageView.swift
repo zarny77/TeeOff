@@ -14,24 +14,34 @@ struct YardageView: View {
     let pin: Color
     
     // add them in an init
-    init(yds: Int, pin: Color)
-    {
+    init(yds: Int, pin: Color) {
         self.yds = yds
         self.pin = pin
     }
+    
     var body: some View {
     
         // build circle marker with input colour and yardage
-        HStack{
+        HStack(spacing: 6) {
+            
             Circle()
                 .fill(pin)
                 .frame(width: 10, height: 10)
+            
             Text(String(yds))
                 .font(.footnote)
+                .foregroundStyle(.primary)
         }
+        .padding(.vertical, 2)
     }
 }
 
 #Preview {
-    YardageView(yds: 321, pin: Color.blue)
+    VStack {
+        YardageView(yds: 321, pin: .blue)
+        YardageView(yds: 305, pin: .white)
+        YardageView(yds: 289, pin: .red)
+    }
+    .padding()
+    .background(Color(.secondarySystemBackground))
 }

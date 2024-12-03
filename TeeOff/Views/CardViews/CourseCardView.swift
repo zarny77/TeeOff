@@ -10,7 +10,7 @@ import SwiftUI
 
 struct CourseCardView: View {
     
-    @ObservedObject var viewModel: CourseCardViewModel
+    let viewModel: CourseCardViewModel
     
     var body: some View {
         RoundedRectangle(cornerRadius: 12)
@@ -19,40 +19,40 @@ struct CourseCardView: View {
             .padding(.horizontal, 10)
             .overlay(
                 
-                // Title and yardages left, par and view SC right
-                HStack(content: {
+                HStack {
                     
-                    // Title and yardages
-                    VStack(alignment: .leading, content: {
-                        
+                    // Left: Course info and yardages
+                    VStack(alignment: .leading) {
                         Spacer() // upper brace
                         
-                        // title
-                        VStack(alignment: .leading, content: {
+                        // Course name and address
+                        VStack(alignment: .leading) {
                             Text(viewModel.name)
                                 .font(.title2)
                                 .fontWeight(.heavy)
                                 .multilineTextAlignment(.leading)
                                 .frame(alignment: .topLeading)
+                            
                             Text(viewModel.address)
                                 .multilineTextAlignment(.leading)
                                 .font(.caption)
                                 .fontWeight(.bold)
-                            ForEach(viewModel.yardageData, id: \.0) {
+                            
+                            // Yardages for each tee
+                            ForEach(viewModel.yardageData, id: \.yardage) {
                                 yardage, color in YardageView(yds: yardage, pin: color)
                             }
-                        })
-                    
-                    // middle spacer
-                    Spacer()
-                    
-                    // par & scorecard sections
-                    VStack (alignment: .center, content: {
+                        }
                         
-                        // top brace
+                        // middle spacer
+                        Spacer()
+                    }
+                    
+                    // Right: Par and actions
+                    VStack (alignment: .center) {
                         Spacer()
                         
-                        Text("Par " + String(course.par))
+                        Text(viewModel.parDisplay)
                             .font(.title)
                             .fontWeight(.medium)
                             .frame(alignment: .topTrailing)
@@ -61,25 +61,30 @@ struct CourseCardView: View {
                         
                         HStack{
                             
-                            Button("Play Golf!", systemImage: "menucard", action:{})
-                                .font(.system(size: 35))
-                                .labelStyle(.iconOnly)
+                            NavigationLink(destination: ScorecardView(course: viewModel.course)) {
+                                Image(systemName: "figure.golf")
+                                    .font(.system(size: 40))
+                            }
                             
-                            Button("Play Golf!", systemImage: "figure.golf.circle", action:{})
-                                .font(.system(size: 40))
-                                .labelStyle(.iconOnly)
+                            NavigationLink(destination: CourseDetailView(course: viewModel.course)) {
+                                Image(systemName: "info.circle")
+                                    .font(.system(size: 35))
+                            }
                         }
-                        
-                        // bottom brace
-                        Spacer()
-                    })
+                        .foregroundStyle(.primary)
                     
-                })
+                        Spacer()
+                    }
+                    
+                }
                 .padding(.horizontal, 25)
             ) // overlay
     }
 }
-#Preview {
-    CourseCardView(course: StB)
+struct CourseCardView_Previews: PreviewProvider {
+    static var previews: some View {
+        let course = CourseRepository.shared.courses[0]
+        CourseCardView(viewModel: CourseCardViewModel(course:course))
+    }
 }
 

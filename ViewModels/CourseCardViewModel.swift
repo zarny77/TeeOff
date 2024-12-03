@@ -24,7 +24,7 @@ struct CourseCardViewModel  {
     var whites: Int { course.whites }
     var reds: Int { course.reds }
     
-    var yardages: [(yardage: Int, color: Color)] {
+    var yardageData: [(yardage: Int, color: Color)] {
         [
             (course.blues, .blue),
             (course.whites, .white),
