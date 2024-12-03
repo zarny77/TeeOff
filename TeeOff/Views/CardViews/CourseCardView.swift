@@ -18,7 +18,6 @@ struct CourseCardView: View {
             .aspectRatio(2.5, contentMode: ContentMode.fit)
             .padding(.horizontal, 10)
             .overlay(
-                
                 HStack {
                     
                     // Left: Course info and yardages
@@ -47,7 +46,7 @@ struct CourseCardView: View {
                         // middle spacer
                         Spacer()
                     }
-                    
+                    Spacer()
                     // Right: Par and actions
                     VStack (alignment: .center) {
                         Spacer()
@@ -62,13 +61,13 @@ struct CourseCardView: View {
                         HStack{
                             
                             NavigationLink(destination: ScorecardView(course: viewModel.course)) {
-                                Image(systemName: "figure.golf")
+                                Image(systemName: "figure.golf.circle")
                                     .font(.system(size: 40))
                             }
                             
                             NavigationLink(destination: CourseDetailView(course: viewModel.course)) {
-                                Image(systemName: "info.circle")
-                                    .font(.system(size: 35))
+                                Image(systemName: "menucard")
+                                    .font(.system(size: 40))
                             }
                         }
                         .foregroundStyle(.primary)
@@ -81,10 +80,13 @@ struct CourseCardView: View {
             ) // overlay
     }
 }
-struct CourseCardView_Previews: PreviewProvider {
-    static var previews: some View {
-        let course = CourseRepository.shared.courses[0]
-        CourseCardView(viewModel: CourseCardViewModel(course:course))
+
+#Preview {
+    NavigationView {
+        VStack(spacing: 20) {
+            CourseCardView(viewModel: CourseCardViewModel(course: PreviewData.Courses.sample))
+        }
+        .padding()
     }
 }
 
