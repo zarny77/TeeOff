@@ -13,7 +13,7 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            CourseSelectView(courseList: courseList)
+            CourseSelectView()
             .navigationTitle("Search Courses")
         }
         .searchable(text: $searchText)
