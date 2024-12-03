@@ -23,46 +23,40 @@ struct HoleCardView: View {
     
     
     var body: some View {
-        
-        // background
         RoundedRectangle(cornerRadius: 12)
             .fill(Color(UIColor.secondarySystemBackground))
             .aspectRatio(1.0, contentMode: ContentMode.fit)
             .overlay(
                 HStack {
-                    // left spacer
                     Spacer()
-                    
                     // left stack: hole #, par, yardages
-                    VStack(alignment: .leading, content: {
+                    VStack(alignment: .leading) {
                         
-                        Spacer()
+                        
                         
                         Text(String(hole.id))
                             .font(.system(size: 60))
                             .fontWeight(.heavy)
                             .foregroundStyle(.green)
                         
-                        
                         // par and yardages
                         Text("Par: " + String(hole.par))
                             .font(.title3)
                             .fontWeight(.bold)
                         
-                        YardageView(yds: hole.blues, pin: Color.blue)
-                        YardageView(yds: hole.whites, pin: Color.white)
-                        YardageView(yds: hole.reds, pin: Color.red)
-                        
                         Spacer()
-                    })
-                    // middle spacer
-                    Spacer()
-                    
+                        
+                        VStack(alignment: .leading, spacing: 2) {
+                            YardageView(yds: hole.blues, pin: Color.blue)
+                            YardageView(yds: hole.whites, pin: Color.white)
+                            YardageView(yds: hole.reds, pin: Color.red)
+                        }
+                        Spacer()
+                    }
+                
+
                     // right stack: score and buttons
-                    VStack(alignment: .center, content: {
-                        
-                        Spacer()
-                        
+                    VStack {
                         Text(String(score))
                             .font(.system(size: 100))
                             .fontWeight(.black)
@@ -70,7 +64,6 @@ struct HoleCardView: View {
                         
                         // buttons
                         HStack {
-                            
                             // subtract left
                             Button("Subtract Stroke", systemImage: "minus.circle.fill", action:
                                     {
@@ -88,15 +81,22 @@ struct HoleCardView: View {
                                 .labelStyle(.iconOnly)
                                 
                         }
-                        Spacer()
-                    })
-                    .padding(.vertical, 30)
-                    // right spacer
+                    }
                     Spacer()
-                })
+                }
+//                    .padding(15)
+                    .frame(maxHeight: .infinity)
+            )
     }
 }
 
 #Preview {
-    HoleCardView(hole: sbgcHoles[0])
+    NavigationView {
+        VStack(spacing: 20) {
+            HoleCardView(hole: PreviewData.Holes.parThree)
+            HoleCardView(hole: PreviewData.Holes.parFour)
+            HoleCardView(hole: PreviewData.Holes.parFive)
+        }
+        .padding()
+    }
 }
