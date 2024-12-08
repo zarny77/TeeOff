@@ -39,7 +39,7 @@ struct CourseCardView: View {
                             
                             // Yardages for each tee
                             ForEach(viewModel.yardageData, id: \.yardage) {
-                                yardage, color in YardageView(yds: yardage, pin: color)
+                                yardage, color in YardageView( yardage, color)
                             }
                         }
                         
@@ -57,20 +57,14 @@ struct CourseCardView: View {
                             .frame(alignment: .topTrailing)
                         
                         Spacer()
-                        
-                        HStack{
-                            
-                            NavigationLink(destination: ScorecardView(course: viewModel.course)) {
-                                Image(systemName: "figure.golf.circle")
-                                    .font(.system(size: 40))
-                            }
-                            
+
                             NavigationLink(destination: CourseDetailView(course: viewModel.course)) {
-                                Image(systemName: "menucard")
-                                    .font(.system(size: 40))
+                                Label(
+                                    "View",
+                                    systemImage: "menucard")
                             }
-                        }
-                        .foregroundStyle(.primary)
+                            .font(.system(size: 18))
+                            .buttonStyle(.borderedProminent)
                     
                         Spacer()
                     }
