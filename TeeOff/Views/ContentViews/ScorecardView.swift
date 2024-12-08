@@ -30,10 +30,8 @@ struct ScorecardView: View {
                     }
                 })
                 .padding(.horizontal, 10)
-                
             }
         }
-
 }
 
 #Preview {

@@ -32,6 +32,7 @@ struct CourseSelectView: View {
                 }
             }
         }
+        .padding(.horizontal, 4)
         .navigationTitle("Select Course")
         .searchable(text: $searchText, prompt: "Search courses")
     }

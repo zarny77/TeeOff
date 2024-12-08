@@ -14,7 +14,7 @@ struct YardageView: View {
     let pin: Color
     
     // add them in an init
-    init(yds: Int, pin: Color) {
+    init(_ yds: Int, _ pin: Color) {
         self.yds = yds
         self.pin = pin
     }
@@ -38,9 +38,9 @@ struct YardageView: View {
 
 #Preview {
     VStack {
-        YardageView(yds: 321, pin: .blue)
-        YardageView(yds: 305, pin: .white)
-        YardageView(yds: 289, pin: .red)
+        YardageView(321, .blue)
+        YardageView(305, .white)
+        YardageView(289, .red)
     }
     .padding()
     .background(Color(.secondarySystemBackground))

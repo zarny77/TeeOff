@@ -47,9 +47,9 @@ struct HoleCardView: View {
                         Spacer()
                         
                         VStack(alignment: .leading, spacing: 2) {
-                            YardageView(yds: hole.blues, pin: Color.blue)
-                            YardageView(yds: hole.whites, pin: Color.white)
-                            YardageView(yds: hole.reds, pin: Color.red)
+                            YardageView(hole.blues, Color.blue)
+                            YardageView(hole.whites, Color.white)
+                            YardageView(hole.reds, Color.red)
                         }
                         Spacer()
                     }
@@ -60,7 +60,6 @@ struct HoleCardView: View {
                         Text(String(score))
                             .font(.system(size: 100))
                             .fontWeight(.black)
-                        
                         
                         // buttons
                         HStack {
