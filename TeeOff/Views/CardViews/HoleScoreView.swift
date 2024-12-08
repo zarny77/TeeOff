@@ -20,41 +20,37 @@ struct HoleScoreView: View {
             .aspectRatio(1.0, contentMode: ContentMode.fit)
             .overlay(
                 HStack {
-                    // left spacer
-                    Spacer()
-                    
                     // left stack: hole #, par, yardages
                     VStack(alignment: .leading) {
                         
-                        Spacer()
-                        
+
                         Text(String(hole.id))
                             .font(.system(size: 60))
                             .fontWeight(.heavy)
                             .foregroundStyle(.green)
-                        
+                            .minimumScaleFactor(0.5)
                         
                         // par and yardages
                         Text("Par: " + String(hole.par))
                             .font(.title3)
                             .fontWeight(.bold)
                         
-                        YardageView(yds: hole.blues, pin: .blue)
-                        YardageView(yds: hole.whites, pin: .white)
-                        YardageView(yds: hole.reds, pin: .red)
-                        
+                        // yds
+                        VStack(alignment: .leading, spacing: 2) {
+                            YardageView(hole.blues, .blue)
+                            YardageView(hole.whites, .white)
+                            YardageView(hole.reds, .red)
+                        }
                         Spacer()
                     }
-                    // middle spacer
+
                     Spacer()
-                    
-                    // right stack: score and buttons
-                    VStack(alignment: .center) {
-                        Spacer()
+                    // right stack: score and over/under indicator
+                    VStack {
                         
                         // Score relative to par marker
                         HStack{
-                            Spacer()
+
                             if score > hole.par {
                                 Text("+" + String(score - hole.par))
                                     .font(.title)
@@ -72,17 +68,13 @@ struct HoleScoreView: View {
                         
                         // Score
                         Text(String(score))
-                            .font(.system(size: 100))
+                            .font(.system(size: 80))
                             .fontWeight(.black)
-                        
-                        Spacer()
                     }
                     .padding(.vertical, 30)
-                    
-                    // right spacer
-                    Spacer()
+
                 }
-                    .padding(.horizontal, 25)
+                .padding(.horizontal, 20)
             )
     }
 }
