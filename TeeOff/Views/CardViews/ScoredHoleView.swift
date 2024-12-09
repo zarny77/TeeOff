@@ -1,5 +1,10 @@
 //
-//  HoleChipView.swift
+//  HoleScoredView.swift
+//
+//  Used in CourseOverviewView and postgame screen.
+//  Shows the hole details, the score given,
+//  and whether it's over / under par
+//
 //  TeeOff
 //
 //  Created by Dylan Zarn on 2024-11-01.
@@ -25,13 +30,13 @@ struct ScoredHoleView: View {
     }
 
     var body: some View {
-        
-        // background
+
         RoundedRectangle(cornerRadius: 12)
             .fill(Color(UIColor.secondarySystemBackground))
             .aspectRatio(1.0, contentMode: ContentMode.fit)
             .overlay(
                 HStack {
+                    Spacer()
                     // left stack: hole #, par, yardages
                     VStack(alignment: .center) {
                         
@@ -83,6 +88,7 @@ struct ScoredHoleView: View {
                             .foregroundStyle(scoreColour)
                             .frame(height: 20)
                         }
+                        .frame(width: 85)
                     
                     // Score
                         Text(String(score))
@@ -93,8 +99,9 @@ struct ScoredHoleView: View {
                             .minimumScaleFactor(0.5)
 
                     }
+                    Spacer()
                 }
-                .padding(.horizontal, 20)
+                    .frame(maxHeight: .infinity)
             )
     }
 }
@@ -102,6 +109,8 @@ struct ScoredHoleView: View {
 
 #Preview {
     VStack {
-        ScoredHoleView(hole: PreviewData.Holes.parThree, score: 5)
+        ScoredHoleView(hole: PreviewData.Holes.parThree, score: 4)
+        ScoredHoleView(hole: PreviewData.Holes.parFour, score: 5)
+        ScoredHoleView(hole: PreviewData.Holes.parFive, score: 4)
     }
 }
