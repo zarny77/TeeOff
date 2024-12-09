@@ -26,7 +26,7 @@ struct ScorecardView: View {
             ScrollView {
                 LazyVGrid(columns: columnLayout, spacing: 10, content:  {
                     ForEach(course.holes) { hole in
-                        HoleCardView(hole: hole)
+                        HoleScoringView(hole: hole)
                     }
                 })
                 .padding(.horizontal, 10)
