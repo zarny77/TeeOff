@@ -5,15 +5,18 @@
 //  Created by Dylan Zarn on 2024-11-01.
 //
 
+import SwiftData
 import Foundation
 
-struct Hole: Identifiable, Codable {
+@Model
+class HoleModel {
+    var id: Int
+    var par: Int
+    var blues: Int
+    var whites: Int
+    var reds: Int
     
-    let id: Int
-    let par: Int
-    private(set) var blues: Int
-    private(set) var whites: Int
-    private(set) var reds: Int
+    @Relationship(inverse: \CourseModel.holes) var course: CourseModel?
     
     init(id: Int, par: Int, blues: Int, whites: Int, reds: Int) {
         assert(par > 0 && par <= 5, "Par must be between 1 and 5")
