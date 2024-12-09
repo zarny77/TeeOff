@@ -14,9 +14,9 @@ struct ScorecardView: View {
     // define column count and spacing
     let columnLayout = Array(repeating: GridItem(.flexible(), spacing: 10), count: 2)
     
-    var course: Course
+    var course: CourseModel
     
-    init(course: Course) {
+    init(course: CourseModel) {
         self.course = course
     }
     

@@ -1,17 +1,17 @@
 //
-//  CourseCardViewModel.swift
+//  CourseDetailViewModel.swift
 //  TeeOff
 //
-//  Created by Dylan Zarn on 2024-11-26.
+//  Created by Dylan Zarn on 2024-12-07.
 //
 
 import Foundation
 import SwiftUI
 
-struct CourseCardViewModel {
-    let course: Course
+struct CourseOverviewViewModel {
+    let course: CourseModel
     
-    init(course: Course) {
+    init(course: CourseModel) {
         self.course = course
     }
     
@@ -34,5 +34,4 @@ struct CourseCardViewModel {
     
     var frontPar: Int { course.frontPar }
     var backPar: Int { course.backPar }
-    
 }

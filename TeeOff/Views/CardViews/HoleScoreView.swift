@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct HoleScoreView: View {
-    let hole: Hole
+    let hole: HoleModel
     let score: Int
     
     var body: some View {

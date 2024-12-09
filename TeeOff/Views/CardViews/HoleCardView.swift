@@ -10,13 +10,13 @@ import SwiftUI
 
 struct HoleCardView: View {
     
-    var hole: Hole
+    var hole: HoleModel
     
     // determine if this can be saved / added later on
     @State var score: Int
 
     
-    init(hole: Hole) {
+    init(hole: HoleModel) {
         self.hole = hole
         self.score = hole.par
     }
@@ -31,8 +31,6 @@ struct HoleCardView: View {
                     Spacer()
                     // left stack: hole #, par, yardages
                     VStack(alignment: .leading) {
-                        
-                        
                         
                         Text(String(hole.id))
                             .font(.system(size: 60))

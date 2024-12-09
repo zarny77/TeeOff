@@ -12,7 +12,7 @@ struct CourseDetailView: View {
     // define column count and spacing
     let columnLayout = Array(repeating: GridItem(.flexible(), spacing: 10), count: 2)
     
-    var course: Course
+    var course: CourseModel
     
     var body: some View {
         ScrollView {

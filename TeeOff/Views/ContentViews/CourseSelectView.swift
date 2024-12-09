@@ -11,10 +11,10 @@ import SwiftUI
 
 struct CourseSelectView: View {
     
-    private let courses: [Course] = CourseRepository.shared.courses
+    private let courses: [CourseModel] = CourseRepository.shared.courses
     @State private var searchText = ""
 
-    private var filteredCourses: [Course] {
+    private var filteredCourses: [CourseModel] {
         if searchText.isEmpty {
             return courses
         }
