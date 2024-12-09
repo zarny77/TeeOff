@@ -8,10 +8,22 @@
 import Foundation
 import SwiftUI
 
-struct HoleScoreView: View {
+struct ScoredHoleView: View {
     let hole: HoleModel
     let score: Int
     
+    private var scoreRelativeToPar: Int { score - hole.par }
+    
+    private var scoreColour: Color {
+        if score == 0 { return .primary }
+        switch scoreRelativeToPar {
+        case ..<0: return .green   // Under par
+        case 0: return .primary    // Par
+        case 1: return .orange     // Bogey
+        default: return .red       // Double+
+        }
+    }
+
     var body: some View {
         
         // background
@@ -21,19 +33,27 @@ struct HoleScoreView: View {
             .overlay(
                 HStack {
                     // left stack: hole #, par, yardages
-                    VStack(alignment: .leading) {
+                    VStack(alignment: .center) {
                         
-
+                        Spacer()
+                        
                         Text(String(hole.id))
                             .font(.system(size: 60))
                             .fontWeight(.heavy)
                             .foregroundStyle(.green)
                             .minimumScaleFactor(0.5)
+                            .frame(height: 60)
+                        
+                        Divider()
+                            .padding(.vertical, -3)
                         
                         // par and yardages
                         Text("Par: " + String(hole.par))
                             .font(.title3)
                             .fontWeight(.bold)
+                        
+                        Divider()
+                            .padding(.vertical, -3)
                         
                         // yds
                         VStack(alignment: .leading, spacing: 2) {
@@ -41,38 +61,38 @@ struct HoleScoreView: View {
                             YardageView(hole.whites, .white)
                             YardageView(hole.reds, .red)
                         }
+                        
                         Spacer()
+                        
                     }
-
+                    .frame(width: 60)
+                    .padding(.vertical, 10)
+                    
                     Spacer()
                     // right stack: score and over/under indicator
-                    VStack {
+                    VStack(spacing: -15) {
                         
                         // Score relative to par marker
-                        HStack{
-
-                            if score > hole.par {
-                                Text("+" + String(score - hole.par))
-                                    .font(.title)
-                                    .fontWeight(.heavy)
-                                    .multilineTextAlignment(.trailing)
-                                    .foregroundStyle(.red)
-                            } else if score < hole.par {
-                                Text("-" + String(hole.par - score))
-                                    .font(.title)
-                                    .fontWeight(.heavy)
-                                    .multilineTextAlignment(.trailing)
-                                    .foregroundStyle(.green)
-                            }
+                        HStack {
+                            Spacer()
+                            Text(scoreRelativeToPar == 0 ? "E" :
+                                    scoreRelativeToPar > 0 ? "+\(scoreRelativeToPar)" :
+                                    "\(scoreRelativeToPar)")
+                            .font(.title)
+                            .fontWeight(.heavy)
+                            .foregroundStyle(scoreColour)
+                            .frame(height: 20)
                         }
-                        
-                        // Score
+                    
+                    // Score
                         Text(String(score))
                             .font(.system(size: 80))
                             .fontWeight(.black)
-                    }
-                    .padding(.vertical, 30)
+                            .frame(minWidth: 100)
+                            .frame(height: 100)
+                            .minimumScaleFactor(0.5)
 
+                    }
                 }
                 .padding(.horizontal, 20)
             )
@@ -82,6 +102,6 @@ struct HoleScoreView: View {
 
 #Preview {
     VStack {
-        HoleScoreView(hole: PreviewData.Holes.parThree, score: 3)
+        ScoredHoleView(hole: PreviewData.Holes.parThree, score: 5)
     }
 }
