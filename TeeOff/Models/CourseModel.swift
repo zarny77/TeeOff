@@ -82,10 +82,5 @@ class CourseModel {
     var backPar: Int {
         holes.suffix(9).reduce(0) { $0 + $1.par }
     }
-    
-    // Forces equality to check ID's (name)
-    
-//    static func ==(lhs: Course, rhs: Course) -> Bool {
-//        return lhs.id == rhs.id
-//    }
+
 }
