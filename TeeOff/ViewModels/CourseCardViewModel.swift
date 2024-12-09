@@ -36,6 +36,9 @@ struct CourseCardViewModel {
         ]
     }
     
+    var holeCount: Int { course.holes.count }
+    var courseType: String { holeCount == 9 ? "9 Hole" : "18 Hole" }
+    
     // Par computed properties
     var frontPar: Int { course.frontPar }
     var backPar: Int { course.backPar }
