@@ -26,9 +26,24 @@ struct CourseSelectView: View {
     
     var body: some View {
         ScrollView {
-            VStack (spacing: 10) {
-                ForEach(filteredCourses) { course in
-                    CourseCardView(viewModel: CourseCardViewModel(course: course))
+            if filteredCourses.isEmpty {
+                VStack(spacing: 20) {
+                    Image(systemName: "magnifyingglass")
+                        .font(.system(size: 40))
+                        .foregroundStyle(.secondary)
+                    Text("No courses found")
+                        .font(.headline)
+                    Text("Try adjusting your search")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+                .frame(maxWidth: .infinity, minHeight: 400)
+                .multilineTextAlignment(.center)
+            } else {
+                LazyVStack (spacing: 10) {
+                    ForEach(filteredCourses) { course in
+                        CourseCardView(viewModel: CourseCardViewModel(course: course))
+                    }
                 }
             }
         }
