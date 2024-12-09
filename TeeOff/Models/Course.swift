@@ -7,17 +7,19 @@
 //  Created by Dylan Zarn on 2024-11-01.
 //
 
+import SwiftData
 import Foundation
 
-struct Course: Identifiable, Codable, Equatable {
+@Model
+class Course {
     
-    private(set) var id: String
-    private(set) var address: String
-    private(set) var blues: Int
-    private(set) var whites: Int
-    private(set) var reds: Int
-    private(set) var par: Int
-    private(set) var holes: [Hole] = []
+    var id: String
+    var address: String
+    var blues: Int
+    var whites: Int
+    var reds: Int
+    var par: Int
+    @Relationship(deleteRule: .cascade) var holes: [Hole] = []
     
     init(id: String, address: String, blues: Int, whites: Int, reds: Int, par: Int, holes: [Hole]) {
         self.id = id
@@ -83,7 +85,7 @@ struct Course: Identifiable, Codable, Equatable {
     
     // Forces equality to check ID's (name)
     
-    static func ==(lhs: Course, rhs: Course) -> Bool {
-        return lhs.id == rhs.id
-    }
+//    static func ==(lhs: Course, rhs: Course) -> Bool {
+//        return lhs.id == rhs.id
+//    }
 }
