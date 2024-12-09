@@ -5,9 +5,10 @@
 //  Created by Dylan Zarn on 2024-11-03.
 //
 
+import SwiftData
 import Foundation
 
-struct CourseRepository {
+class CourseRepository {
     
     static let shared = CourseRepository()
     
@@ -18,8 +19,13 @@ struct CourseRepository {
         .southside,
         .maplewood
     ]
+    
+    func findCourse(byID id: String) -> Course? {
+        courses.first { $0.id == id }
+    }
+    
 }
-
+    
 private extension Course {
     
     // St. Boniface Golf Course
