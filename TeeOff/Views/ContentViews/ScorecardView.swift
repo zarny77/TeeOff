@@ -6,34 +6,34 @@
 //
 
 import SwiftUI
-
-
+import SwiftData
 
 struct ScorecardView: View {
         
     // define column count and spacing
     let columnLayout = Array(repeating: GridItem(.flexible(), spacing: 10), count: 2)
+    @Bindable var round: RoundModel
     
-    var course: CourseModel
-    
-    init(course: CourseModel) {
-        self.course = course
-    }
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
+    @State private var showingFinishConfirmation = false
+    @State private var roundManager = RoundManagerViewModel.shared
     
     var body: some View {
         
             // hole chip generator
             ScrollView {
                 LazyVGrid(columns: columnLayout, spacing: 10, content:  {
-                    ForEach(course.holes) { hole in
+                    ForEach(round.course.holes) { hole in
                         HoleScoringView(hole: hole)
                     }
                 })
                 .padding(.horizontal, 10)
             }
+            
         }
 }
 
 #Preview {
-    ScorecardView(course: PreviewData.Courses.sample)
+    ScorecardView(round: PreviewData.goodRound)
 }
