@@ -10,6 +10,8 @@ import SwiftData
 
 struct CourseOverviewView: View {
     
+    // MARK: - Properties
+    
     let viewModel: CourseOverviewViewModel
     @Environment(\.modelContext) private var modelContext
     @State private var shouldNavigate = false
@@ -21,69 +23,14 @@ struct CourseOverviewView: View {
         return activeRound.course.id == viewModel.course.id
     }
     
+    // MARK: - Body
+    
     var body: some View  {
         GroupBox {
             VStack(alignment: .leading, spacing: 5) {
-                HStack {
-                    // Basic info
-                    VStack(alignment: .leading) {
-                        
-                        Text("Course Overview")
-                            .font(.headline)
-                            .padding(.vertical, 2)
-                        Label(viewModel.address, systemImage: "location.fill")
-                            .font(.subheadline)
-                            .frame(width: 241)
-                            .minimumScaleFactor(0.5)
-                            
-
-                        
-                        HStack(spacing: 8) {
-                            Text("Yardages")
-                                .font(.subheadline)
-                                .foregroundStyle(.secondary)
-                                .frame(width: 65)
-                            YardageView(viewModel.blues, .blue)
-                            YardageView(viewModel.blues, .white)
-                            YardageView(viewModel.reds, .red)
-                        }
-                        .frame(width: 239)
-                    }
-                    Spacer()
-                    
-                    // Start Round Buttton
-                    VStack {
-                        Spacer()
-                        
-                        Button {
-                            handleRoundStart()
-                        } label: {
-                            Label(hasActiveRoundAtThisCourse ? "Start" : "Continue",
-                                  systemImage: hasActiveRoundAtThisCourse ? "figure.golf" : "arrow.right")
-                        }
-                        .font(.system(size: 13))
-                        .frame(width: 105)
-                        .buttonStyle(.borderedProminent)
-                        Spacer()
-                    }
-                }
+                headerSection
                 Divider()
-                
-                // Par details
-                HStack {
-                    VStack(alignment: .leading) {
-                        courseStat("Total Par", String(viewModel.course.par))
-                        courseStat("Front", String(viewModel.frontPar))
-                        courseStat("Back", String(viewModel.backPar))
-                    }
-                Spacer()
-                    // Personal Averages
-                    VStack(alignment: .trailing) {
-                        courseStat("Average", "92")
-                        courseStat("Avg Front", "45")
-                        courseStat("Avg Back", "47")
-                    }
-                }
+                statisticsSection
                 Divider()
             }
         }
@@ -113,7 +60,73 @@ struct CourseOverviewView: View {
             Text("You have an active round at \(roundManager.activeRound?.course.id ?? ""). \n\n Would you like to continue that round or discard it and start a new one?")
         }
     }
-
+    
+    // MARK: - Subviews
+    
+    private var headerSection: some View {
+        HStack {
+            VStack(alignment: .leading) {
+                
+                Text("Course Overview")
+                    .font(.headline)
+                    .padding(.vertical, 2)
+                Label(viewModel.address, systemImage: "location.fill")
+                    .font(.subheadline)
+                    .frame(width: 241)
+                    .minimumScaleFactor(0.5)
+                
+                HStack(spacing: 8) {
+                    Text("Yardages")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .frame(width: 65)
+                    YardageView(viewModel.blues, .blue)
+                    YardageView(viewModel.whites, .white)
+                    YardageView(viewModel.reds, .red)
+                }
+                
+            }
+            .frame(width: 239)
+            Spacer()
+            
+            startRoundButton
+        }
+    }
+    
+    private var startRoundButton: some View {
+        VStack {
+            Spacer()
+            
+            Button {
+                handleRoundStart()
+            } label: {
+                Label(hasActiveRoundAtThisCourse ? "Start" : "Continue",
+                      systemImage: hasActiveRoundAtThisCourse ? "figure.golf" : "arrow.right")
+            }
+            .font(.system(size: 13))
+            .frame(width: 105)
+            .buttonStyle(.borderedProminent)
+            Spacer()
+        }
+    }
+    
+    private var statisticsSection: some View {
+        HStack {
+            VStack(alignment: .leading) {
+                ForEach(viewModel.parStats, id: \.label) { stat in
+                    StatRow(label: stat.label, value: stat.value)
+                }
+            }
+            Spacer()
+            
+            VStack(alignment: .trailing) {
+                ForEach(viewModel.averageStats, id: \.label) { stat in
+                    StatRow(label: stat.label, value: stat.value)
+                }
+            }
+        }
+    }
+    
     
     // MARK: - Round Management
     
@@ -143,18 +156,6 @@ struct CourseOverviewView: View {
         print("Should Navigate: \(shouldNavigate)")
     }
     
-    
-    // MARK: - Subview
-    
-    private func courseStat(_ label: String, _ value: String) -> some View {
-        HStack {
-            Text(label)
-                .foregroundStyle(.secondary)
-            Text(value)
-                .fontWeight(.medium)
-        }
-        .font(.subheadline)
-    }
 }
 
 #Preview {

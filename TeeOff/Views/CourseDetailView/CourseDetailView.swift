@@ -25,7 +25,6 @@ struct CourseDetailView: View {
 
     // MARK: - Subview
     
-    // Details for each hole
     private var holeGridSection: some View {
         
         VStack(alignment: .leading)
