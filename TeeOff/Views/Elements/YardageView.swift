@@ -32,6 +32,7 @@ struct YardageView: View {
                 .font(.footnote)
                 .foregroundStyle(.primary)
         }
+        .frame(width: 50)
         
     }
 }
