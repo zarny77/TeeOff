@@ -29,6 +29,42 @@ struct ScorecardView: View {
                     }
                 })
                 .padding(.horizontal, 10)
+                
+                HStack(spacing: 10) {
+                    Button {
+                        showingFinishConfirmation = true
+                        print("User Pressed Quit")
+                    } label: {
+                        Label("Finish Round", systemImage: "flag.checkered.circle.fill")
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 60)
+                    }
+                    .buttonStyle(.bordered)
+                    .padding(.horizontal, 10)
+                    .foregroundStyle(.green)
+                }
+                .confirmationDialog(
+                    "Finish Round",
+                    isPresented: $showingFinishConfirmation,
+                    titleVisibility: .automatic
+                ) {
+                    Button("Save", role: .none) {
+                        roundManager.activeRound = nil
+                        dismiss()
+                    }
+                    
+                    Button("Discard", role: .destructive) {
+                        modelContext.delete(round)
+                        roundManager.activeRound = nil
+                        dismiss()
+                        print("Round Successfully Deleted")
+                    }
+                } message: {
+                    Text("Save this round?")
+                        .font(.title)
+                }
             }
             
         }
