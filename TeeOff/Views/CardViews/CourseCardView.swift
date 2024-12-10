@@ -31,11 +31,15 @@ struct CourseCardView: View {
                                 .fontWeight(.heavy)
                                 .multilineTextAlignment(.leading)
                                 .frame(alignment: .topLeading)
+                                .minimumScaleFactor(0.5)
                             
                             Text(viewModel.address)
                                 .multilineTextAlignment(.leading)
                                 .font(.caption)
                                 .fontWeight(.bold)
+                                .minimumScaleFactor(0.5)
+                            
+                            Divider()
                             
                             // Yardages for each tee
                             ForEach(viewModel.yardageData, id: \.yardage) {
@@ -61,7 +65,8 @@ struct CourseCardView: View {
                             NavigationLink(destination: CourseDetailView(course: viewModel.course)) {
                                 Label(
                                     "View",
-                                    systemImage: "menucard")
+                                    systemImage: "menucard"
+                                )
                             }
                             .font(.system(size: 18))
                             .buttonStyle(.borderedProminent)
