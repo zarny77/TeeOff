@@ -14,16 +14,24 @@ import SwiftUI
 struct HoleScoringView: View {
     
     var hole: HoleModel
-    
-    // determine if this can be saved / added later on
-    @State var score: Int
+    @Bindable var round: RoundModel
 
+    private let parHaptic = UIImpactFeedbackGenerator(style: .light)
+    private let scoreHaptic = UIImpactFeedbackGenerator(style: .medium)
     
-    init(hole: HoleModel) {
+    init(hole: HoleModel, round: RoundModel) {
         self.hole = hole
-        self.score = hole.par
+        self.round = round
     }
     
+    private var score: Int {
+        get { round.scores[hole.id - 1] } // hole id is 1 based,
+        nonmutating set { round.updateScore(for: hole.id - 1, score: newValue) }
+    }
+    
+    private var isHolePlayed: Bool {
+        round.playedHoles[hole.id - 1]
+    }
     
     var body: some View {
         RoundedRectangle(cornerRadius: 12)
@@ -42,7 +50,7 @@ struct HoleScoringView: View {
                         Text(String(hole.id))
                             .font(.system(size: 60))
                             .fontWeight(.heavy)
-                            .foregroundStyle(.green)
+                            .foregroundStyle(isHolePlayed ? .green : .secondary)
                             .frame(height: 60)
                             .minimumScaleFactor(0.1)
                         
@@ -77,6 +85,13 @@ struct HoleScoringView: View {
                             .frame(width: 100, height: 100)
                             .minimumScaleFactor(0.5)
                             .multilineTextAlignment(.center)
+                            .foregroundStyle(isHolePlayed ? .primary : .secondary)
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                
+                                parHaptic.impactOccurred()
+                                round.updateScore(for: hole.id - 1, score: score)
+                            }
                         
                         // buttons
                         HStack {
@@ -84,6 +99,7 @@ struct HoleScoringView: View {
                             Button("Subtract Stroke", systemImage: "minus.circle.fill", action:
                                     {
                                 if score > 1 {
+                                    scoreHaptic.impactOccurred()
                                     self.score -= 1
                                 }
                                 })
@@ -93,6 +109,7 @@ struct HoleScoringView: View {
                             // add right
                             Button("Add Stroke", systemImage: "plus.circle.fill", action:
                                     {
+                                scoreHaptic.impactOccurred()
                                 self.score += 1
                                 })
                             .font(.largeTitle)
@@ -110,9 +127,9 @@ struct HoleScoringView: View {
 #Preview {
     NavigationView {
         VStack(spacing: 20) {
-            HoleScoringView(hole: PreviewData.Holes.parThree)
-            HoleScoringView(hole: PreviewData.Holes.parFour)
-            HoleScoringView(hole: PreviewData.Holes.parFive)
+            HoleScoringView(hole: PreviewData.Holes.parThree, round: PreviewData.goodRound)
+            HoleScoringView(hole: PreviewData.Holes.parFour, round: PreviewData.badRound)
+            HoleScoringView(hole: PreviewData.Holes.parFive, round:PreviewData.completedPar)
         }
         .padding()
     }
