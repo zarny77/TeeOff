@@ -25,7 +25,7 @@ struct ScorecardView: View {
             ScrollView {
                 LazyVGrid(columns: columnLayout, spacing: 10, content:  {
                     ForEach(round.course.holes) { hole in
-                        HoleScoringView(hole: hole)
+                        HoleScoringView(hole: hole, round: round)
                     }
                 })
                 .padding(.horizontal, 10)
@@ -36,7 +36,7 @@ struct ScorecardView: View {
                         print("User Pressed Quit")
                     } label: {
                         Label("Finish Round", systemImage: "flag.checkered.circle.fill")
-                            .font(.title)
+                            .font(.title2)
                             .fontWeight(.bold)
                             .frame(maxWidth: .infinity)
                             .frame(height: 60)
@@ -45,6 +45,8 @@ struct ScorecardView: View {
                     .padding(.horizontal, 10)
                     .foregroundStyle(.green)
                 }
+                .navigationTitle(round.course.id)
+                .navigationBarTitleDisplayMode(.automatic)
                 .confirmationDialog(
                     "Finish Round",
                     isPresented: $showingFinishConfirmation,
