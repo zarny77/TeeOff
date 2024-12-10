@@ -15,13 +15,13 @@ struct CourseDetailView: View {
     var course: CourseModel
     
     var body: some View {
-        ScrollView {
-            
-            CourseOverviewView(viewModel: CourseOverviewViewModel(course: course))
-            holeGridSection
+            ScrollView {
+                
+                CourseOverviewView(viewModel: CourseOverviewViewModel(course: course))
+                holeGridSection
+            }
+            .navigationTitle("\(course.id)")
         }
-        .navigationTitle("\(course.id)")
-    }
 
     // MARK: - Subview
     
