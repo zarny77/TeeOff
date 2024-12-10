@@ -6,10 +6,15 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct CourseOverviewView: View {
     
     let viewModel: CourseOverviewViewModel
+    @Environment(\.modelContext) private var modelContext
+    @State private var shouldNavigate = false
+    
+    @State private var roundManager = RoundManagerViewModel.shared
     
     var body: some View  {
         GroupBox {
@@ -17,11 +22,13 @@ struct CourseOverviewView: View {
                 HStack {
                     // Basic info
                     VStack(alignment: .leading) {
+                        
                         Text("Course Overview")
                             .font(.headline)
                             .padding(.vertical, 2)
                         Label(viewModel.address, systemImage: "location.fill")
                             .font(.subheadline)
+                        
                         HStack(spacing: 8) {
                             Text("Yardages")
                                 .font(.subheadline)
@@ -37,14 +44,16 @@ struct CourseOverviewView: View {
                     VStack {
                         Spacer()
                         
-                        NavigationLink(
-                            destination: ScorecardView(course: viewModel.course)) {
-                            Label(
-                                "Start",
-                                systemImage: "figure.golf")
+                        Button {
+                            if roundManager.activeRound == nil {
+                                createNewRound()
+                            }
+                            shouldNavigate = true
+                        } label: {
+                            Label("Start", systemImage: "figure.golf")
                         }
-                            .font(.system(size: 13))
-                            .buttonStyle(.borderedProminent)
+                        .font(.system(size: 13))
+                        .buttonStyle(.borderedProminent)
                         Spacer()
                     }
                 }
@@ -70,7 +79,27 @@ struct CourseOverviewView: View {
         }
         .cornerRadius(12)
         .padding(.horizontal, 10)
+        .navigationDestination(isPresented: $shouldNavigate) {
+            if let round = roundManager.activeRound {
+                ScorecardView(round: round)
+            }
+        }
     }
+
+    
+    // MARK: - Round Creation
+    
+    private func createNewRound() {
+        let round = RoundModel(course: viewModel.course)
+        modelContext.insert(round)
+        print("Round created at course \(viewModel.course.id)")
+        roundManager.activeRound = round
+        shouldNavigate = true
+
+        print("Active Round Set: \(String(describing: roundManager.activeRound))")
+        print("Should Navigate: \(shouldNavigate)")
+    }
+    
     
     // MARK: - Subview
     
@@ -84,7 +113,6 @@ struct CourseOverviewView: View {
         .font(.subheadline)
     }
 }
-
 
 #Preview {
     CourseOverviewView(viewModel: CourseOverviewViewModel(course: CourseRepository.shared.courses[0]))
