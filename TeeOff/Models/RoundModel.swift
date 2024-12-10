@@ -27,6 +27,7 @@ class RoundModel {
     }
     
     // MARK: - Score Management
+    
     func updateScore(for holeIndex: Int, score: Int) {
         guard holeIndex >= 0 && holeIndex < scores.count else { return }
         guard score >= 0 else { return}
