@@ -6,3 +6,11 @@
 //
 
 import Foundation
+import SwiftData
+
+@Observable class RoundManagerViewModel {
+    static let shared = RoundManagerViewModel()
+    var activeRound: RoundModel?
+    
+    private init() {}
+}
