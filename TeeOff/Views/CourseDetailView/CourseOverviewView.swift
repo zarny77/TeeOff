@@ -100,8 +100,8 @@ struct CourseOverviewView: View {
             Button {
                 handleRoundStart()
             } label: {
-                Label(hasActiveRoundAtThisCourse ? "Start" : "Continue",
-                      systemImage: hasActiveRoundAtThisCourse ? "figure.golf" : "arrow.right")
+                Label(hasActiveRoundAtThisCourse ? "Continue" : "Start" ,
+                      systemImage: hasActiveRoundAtThisCourse ? "arrow.right" : "figure.golf")
             }
             .font(.system(size: 13))
             .frame(width: 105)
