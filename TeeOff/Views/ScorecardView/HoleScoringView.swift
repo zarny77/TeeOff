@@ -13,8 +13,12 @@ import SwiftUI
 
 struct HoleScoringView: View {
     
+    
+    
     var hole: HoleModel
     @Bindable var round: RoundModel
+    
+    
 
     private let parHaptic = UIImpactFeedbackGenerator(style: .light)
     private let scoreHaptic = UIImpactFeedbackGenerator(style: .medium)
@@ -23,6 +27,8 @@ struct HoleScoringView: View {
         self.hole = hole
         self.round = round
     }
+    
+    private let logger = Logger(origin: "HoleScoringView")
     
     private var score: Int {
         get { round.scores[hole.id - 1] } // hole id is 1 based,
@@ -91,6 +97,12 @@ struct HoleScoringView: View {
                                 
                                 parHaptic.impactOccurred()
                                 round.updateScore(for: hole.id - 1, score: score)
+                                logger.log("Tapped score indicator, updating score", level: .info)
+                                if hole.par == score {
+                                    logger.log("Updated par", level: .success)
+                                } else {
+                                    logger.log("Updated score", level: .success)
+                                }
                             }
                         
                         // buttons
@@ -98,9 +110,13 @@ struct HoleScoringView: View {
                             // subtract left
                             Button("Subtract Stroke", systemImage: "minus.circle.fill", action:
                                     {
+                                logger.log("Attempting to subtract", level: .info)
                                 if score > 1 {
+                                    logger.log("Subtracted from score", level: .success)
                                     scoreHaptic.impactOccurred()
                                     self.score -= 1
+                                } else {
+                                    logger.log("Failed to subtract: Score cannot be below 1.", level: .error)
                                 }
                                 })
                             .font(.largeTitle)
@@ -109,6 +125,7 @@ struct HoleScoringView: View {
                             // add right
                             Button("Add Stroke", systemImage: "plus.circle.fill", action:
                                     {
+                                logger.log("Adding to score", level: .info)
                                 scoreHaptic.impactOccurred()
                                 self.score += 1
                                 })
