@@ -17,7 +17,7 @@ struct ScorecardView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     @State private var showingFinishConfirmation = false
-    @State private var roundManager = RoundManagerViewModel.shared
+    @State private var roundManager = RoundManager.shared
     
     var body: some View {
         
