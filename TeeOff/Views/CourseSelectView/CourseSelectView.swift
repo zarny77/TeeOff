@@ -13,6 +13,8 @@ struct CourseSelectView: View {
     
     private let courses: [CourseModel] = CourseRepository.shared.courses
     @State private var searchText = ""
+    
+    private let logger = Logger(origin: "CourseSelectView")
 
     private var filteredCourses: [CourseModel] {
         if searchText.isEmpty {
