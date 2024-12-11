@@ -10,12 +10,15 @@ import SwiftData
 
 struct CourseOverviewView: View {
     
-    // MARK: - Properties
+    private let logger = Logger(origin: "CourseOverviewView")
     
     let viewModel: CourseOverviewViewModel
+    
+    // MARK: - Properties
+    
     @Environment(\.modelContext) private var modelContext
     @State private var shouldNavigate = false
-    @State private var roundManager = RoundManagerViewModel.shared
+    @State private var roundManager = RoundManager.shared
     @State private var showingRoundConflictAlert = false
     
     private var hasActiveRoundAtThisCourse: Bool {
@@ -132,16 +135,16 @@ struct CourseOverviewView: View {
     
     private func handleRoundStart() {
         if let activeRound = roundManager.activeRound {
-            print("Active round detected, checking course")
+            logger.log("Active round detected, checking course")
             if activeRound.course.id != viewModel.course.id {
-                print("Different course accessed, should prompt for cancellation")
+                logger.log("Different course accessed, should prompt for cancellation")
                 showingRoundConflictAlert = true
             } else {
-                print("Course with active round selected, navigating to active round")
+                logger.log("Course with active round selected, navigating to active round")
                 shouldNavigate = true
             }
         } else {
-            print("No active round detected. Creating new round.")
+            logger.log("No active round detected. Creating new round.")
             createNewRound()
         }
     }
@@ -149,11 +152,11 @@ struct CourseOverviewView: View {
     private func createNewRound() {
         let round = RoundModel(course: viewModel.course)
         modelContext.insert(round)
-        print("Round created at course \(viewModel.course.id)")
+        
         roundManager.activeRound = round
         shouldNavigate = true
-        print("Active Round Set: \(String(describing: roundManager.activeRound))")
-        print("Should Navigate: \(shouldNavigate)")
+        logger.log("Active Round Set: \(logger.formatOptional(roundManager.activeRound?.course.id)) - \(logger.formatOptional(roundManager.activeRound?.date.formatted(date: .abbreviated, time: .omitted)))")
+        logger.log("Should Navigate: \(shouldNavigate)")
     }
     
 }
