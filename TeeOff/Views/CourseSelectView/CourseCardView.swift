@@ -11,7 +11,9 @@ import SwiftUI
 struct CourseCardView: View {
     
     let viewModel: CourseCardViewModel
+    private let logger = Logger(origin: "CourseCardView")
     
+    // MARK: - Body
     var body: some View {
         RoundedRectangle(cornerRadius: 12)
             .fill(Color(UIColor.secondarySystemBackground))
@@ -21,65 +23,87 @@ struct CourseCardView: View {
                 HStack {
                     
                     // Left: Course info and yardages
-                    VStack(alignment: .leading) {
-                        Spacer() // upper brace
-                        
-                        // Course name and address
-                        VStack(alignment: .leading) {
-                            Text(viewModel.name)
-                                .font(.title2)
-                                .fontWeight(.heavy)
-                                .multilineTextAlignment(.leading)
-                                .frame(alignment: .topLeading)
-                                .minimumScaleFactor(0.5)
-                            
-                            Text(viewModel.address)
-                                .multilineTextAlignment(.leading)
-                                .font(.caption)
-                                .fontWeight(.bold)
-                                .minimumScaleFactor(0.5)
-                            
-                            Divider()
-                            
-                            // Yardages for each tee
-                            ForEach(viewModel.yardageData, id: \.yardage) {
-                                yardage, color in YardageView( yardage, color)
-                            }
-                        }
-                        
-                        // middle spacer
-                        Spacer()
-                    }
-                    Spacer()
+                    courseInfo
+                    
                     // Right: Par and actions
                     VStack (alignment: .center) {
                         Spacer()
-                        
-                        Text(viewModel.parDisplay)
-                            .font(.title)
-                            .fontWeight(.medium)
-                            .frame(alignment: .topTrailing)
-                        
+                        parDisplay
                         Spacer()
-
-                            NavigationLink(destination: CourseDetailView(course: viewModel.course)) {
-                                Label(
-                                    "View",
-                                    systemImage: "menucard"
-                                )
-                            }
-                            .font(.system(size: 18))
-                            .buttonStyle(.borderedProminent)
-                    
+                        viewButton
                         Spacer()
                     }
-                    
                 }
                 .padding(.horizontal, 25)
             ) // overlay
     }
+    
+    // MARK: - Components
+    
+    // Identifiers and Yardages
+    private var courseInfo: some View {
+        VStack(alignment: .leading) {
+            Spacer()
+            courseIdentifiers
+            Divider()
+            courseYardages
+            Spacer()
+            
+        }
+    }
+    
+    // Name and address
+    private var courseIdentifiers: some View {
+        VStack(alignment: .leading) {
+            Text(viewModel.name)
+                .font(.title2)
+                .fontWeight(.heavy)
+                .multilineTextAlignment(.leading)
+                .frame(alignment: .topLeading)
+                .minimumScaleFactor(0.5)
+            
+            Text(viewModel.address)
+                .multilineTextAlignment(.leading)
+                .font(.caption)
+                .fontWeight(.bold)
+                .minimumScaleFactor(0.5)
+        }
+    }
+    
+    // Yardage indicators
+    private var courseYardages: some View {
+        ForEach(viewModel.yardageData, id: \.yardage) {
+            yardage, color in YardageView( yardage, color)
+        }
+    }
+    
+    // Par for the course
+    private var parDisplay: some View {
+        Text(viewModel.parDisplay)
+            .font(.title)
+            .fontWeight(.medium)
+            .frame(alignment: .topTrailing)
+    }
+    
+    // 'View' Button to CourseDetailView
+    private var viewButton: some View {
+        NavigationLink(destination: CourseDetailView(course: viewModel.course)) {
+            Label(
+                "View",
+                systemImage: "menucard"
+            )
+            
+        }
+        .font(.system(size: 18))
+        .buttonStyle(.borderedProminent)
+        .onTapGesture {
+            logger.log("Navigating to: \(viewModel.course.id) Details", level: .info)
+        }
+    }
 }
 
+
+// MARK: - Preview
 #Preview {
     NavigationView {
         VStack(spacing: 20) {
