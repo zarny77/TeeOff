@@ -8,8 +8,8 @@
 import Foundation
 import SwiftUI
 
-@Observable class RoundManagerViewModel {
-    static let shared = RoundManagerViewModel()
+@Observable class RoundManager {
+    static let shared = RoundManager()
     var activeRound: RoundModel?
     
     private init() {}
