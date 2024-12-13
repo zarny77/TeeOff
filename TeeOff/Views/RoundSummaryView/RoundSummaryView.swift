@@ -11,10 +11,8 @@ import SwiftData
 struct RoundSummaryView: View {
         
     // MARK: - Properties
-    
     let columnLayout = Array(repeating: GridItem(.flexible(), spacing: 10), count: 2)
     private let logger = Logger(origin: "RoundSummaryView")
-    
     @Bindable var round: RoundModel
     
     // MARK: - Body
@@ -42,7 +40,6 @@ struct RoundSummaryView: View {
         )
         .padding(.horizontal, 10)
     }
-    
 }
 
 // MARK: - Preview
