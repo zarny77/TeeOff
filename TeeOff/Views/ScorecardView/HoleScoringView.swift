@@ -25,7 +25,18 @@ struct HoleScoringView: View {
         round.playedHoles[hole.id - 1]
     }
     
+    private var scoreRelativeToPar: Int { score - hole.par }
     
+    private var scoreColour: Color {
+        if score == 0 { return .primary }
+        switch scoreRelativeToPar {
+        case ..<0: return .green   // Under par
+        case 0: return .blue    // Par
+        case 1: return .orange     // Bogey
+        default: return .red       // Double+
+        }
+    }
+
     // MARK: - Feedback
     private let parHaptic = UIImpactFeedbackGenerator(style: .light)
     private let scoreHaptic = UIImpactFeedbackGenerator(style: .medium)
@@ -123,9 +134,9 @@ struct HoleScoringView: View {
     }
     
     
+    // MARK: - Buttons
     private var subtractButton: some View {
-        Button("Subtract Stroke", systemImage: "minus.circle.fill", action:
-                {
+        Button("Subtract Stroke", systemImage: "minus.circle.fill", action: {
             logger.log("Attempting to subtract", level: .info)
             if score > 1 {
                 logger.log("Subtracted from score", level: .success)
@@ -134,21 +145,22 @@ struct HoleScoringView: View {
             } else {
                 logger.log("Failed to subtract: Score cannot be below 1.", level: .error)
             }
-            })
-            .font(.largeTitle)
-            .labelStyle(.iconOnly)
+        })
+        .symbolRenderingMode(.hierarchical)
+        .font(.largeTitle)
+        .labelStyle(.iconOnly)
     }
     
     
     private var addButton: some View {
-        Button("Add Stroke", systemImage: "plus.circle.fill", action:
-                {
+        Button("Add Stroke", systemImage: "plus.circle.fill", action: {
             logger.log("Adding to score", level: .info)
             scoreHaptic.impactOccurred()
             self.score += 1
-            })
-            .font(.largeTitle)
-            .labelStyle(.iconOnly)
+        })
+        .symbolRenderingMode(.hierarchical)
+        .font(.largeTitle)
+        .labelStyle(.iconOnly)
     }
 }
 
