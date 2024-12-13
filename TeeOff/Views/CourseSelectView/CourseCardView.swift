@@ -92,7 +92,6 @@ struct CourseCardView: View {
                 "View",
                 systemImage: "menucard"
             )
-            
         }
         .font(.system(size: 18))
         .buttonStyle(.borderedProminent)
