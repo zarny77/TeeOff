@@ -16,16 +16,16 @@ struct ScorecardView: View {
     private let logger = Logger(origin: "ScorecardView")
     
     @Bindable var round: RoundModel
-    
+        
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     @State private var showingFinishConfirmation = false
+    @State private var navigateToSummary = false
     @State private var roundManager = RoundManager.shared
-    
+
     // MARK: - Body
+    
     var body: some View {
-        
-        // hole chip generator
         ScrollView{
             scorecardGrid
             finishButton
@@ -71,8 +71,9 @@ struct ScorecardView: View {
             
         ) {
             Button("Save", role: .none) {
+                roundManager.activeRound?.finishRound()
                 roundManager.activeRound = nil
-                dismiss()
+                navigateToSummary = true
                 logger.log("Saved round", level: .success)
             }
             
@@ -86,8 +87,10 @@ struct ScorecardView: View {
             Text("Save this round?")
                 .font(.title)
         }
+        .navigationDestination(isPresented: $navigateToSummary) {
+                RoundSummaryView(round: round)
+        }
     }
-        
 }
 
 // MARK: - Preview
