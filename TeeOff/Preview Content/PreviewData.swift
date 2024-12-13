@@ -101,6 +101,15 @@ enum PreviewData {
         return round
     }()
     
+    static let goodPartial: RoundModel = {
+        var round = RoundModel(course: Courses.sample)
+        for i in 0..<9 {
+            let randomScore = Courses.sample.holes[i].par + [-1, 0].randomElement()!
+            round.updateScore(for: i, score: randomScore)
+        }
+        return round
+    }()
+    
     static let badRound: RoundModel = {
         var round = RoundModel(course: Courses.sample)
         for i in 0..<18 {
