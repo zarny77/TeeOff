@@ -34,7 +34,6 @@ struct CourseOverviewView: View {
                 headerSection
                 Divider()
                 statisticsSection
-                Divider()
             }
         }
         .cornerRadius(12)
