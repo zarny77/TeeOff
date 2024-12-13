@@ -37,7 +37,7 @@ struct CourseDetailView: View {
             Divider()
             LazyVGrid(columns: columnLayout, spacing: 10) {
                 ForEach(course.holes) { hole in
-                    ScoredHoleView(hole: hole, score: hole.par)
+                    ScoredHoleView(hole: hole, score: hole.par, played: true)
                 }
             }
             .padding(.horizontal, 10)

@@ -16,6 +16,7 @@ import SwiftUI
 struct ScoredHoleView: View {
     let hole: HoleModel
     let score: Int
+    let played: Bool
     
     private var scoreRelativeToPar: Int { score - hole.par }
     
@@ -23,7 +24,7 @@ struct ScoredHoleView: View {
         if score == 0 { return .primary }
         switch scoreRelativeToPar {
         case ..<0: return .green   // Under par
-        case 0: return .primary    // Par
+        case 0: return .blue       // Par
         case 1: return .orange     // Bogey
         default: return .red       // Double+
         }
@@ -45,7 +46,7 @@ struct ScoredHoleView: View {
                         Text(String(hole.id))
                             .font(.system(size: 60))
                             .fontWeight(.heavy)
-                            .foregroundStyle(.green)
+                            .foregroundStyle(played ? .green : .secondary)
                             .minimumScaleFactor(0.5)
                             .frame(height: 60)
                         
@@ -80,15 +81,23 @@ struct ScoredHoleView: View {
                         // Score relative to par marker
                         HStack {
                             Spacer()
-                            Text(scoreRelativeToPar == 0 ? "E" :
-                                    scoreRelativeToPar > 0 ? "+\(scoreRelativeToPar)" :
-                                    "\(scoreRelativeToPar)")
-                            .font(.title)
-                            .fontWeight(.heavy)
-                            .foregroundStyle(scoreColour)
-                            .frame(height: 20)
+                            if played {
+                                Text(scoreRelativeToPar == 0 ? "E" :
+                                        scoreRelativeToPar > 0 ? "+\(scoreRelativeToPar)" :
+                                        "\(scoreRelativeToPar)")
+                                .font(.title)
+                                .fontWeight(.heavy)
+                                .foregroundStyle(scoreColour)
+                                .frame(height: 20)
+                            } else {
+                                Text(" ")
+                                .font(.title)
+                                .fontWeight(.heavy)
+                                .frame(height: 20)
+                            }
                         }
                         .frame(width: 85)
+                            
                     
                     // Score
                         Text(String(score))
@@ -97,6 +106,7 @@ struct ScoredHoleView: View {
                             .frame(minWidth: 100)
                             .frame(height: 100)
                             .minimumScaleFactor(0.5)
+                            .foregroundStyle(played ? .primary : .secondary)
 
                     }
                     Spacer()
@@ -109,8 +119,8 @@ struct ScoredHoleView: View {
 
 #Preview {
     VStack {
-        ScoredHoleView(hole: PreviewData.Holes.parThree, score: 4)
-        ScoredHoleView(hole: PreviewData.Holes.parFour, score: 5)
-        ScoredHoleView(hole: PreviewData.Holes.parFive, score: 4)
+        ScoredHoleView(hole: PreviewData.Holes.parThree, score: 4, played: true)
+        ScoredHoleView(hole: PreviewData.Holes.parFour, score: 5, played: true)
+        ScoredHoleView(hole: PreviewData.Holes.parFive, score: 4, played: false)
     }
 }
