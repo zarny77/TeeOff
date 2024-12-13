@@ -68,7 +68,6 @@ struct ScorecardView: View {
             "Finish Round",
             isPresented: $showingFinishConfirmation,
             titleVisibility: .automatic
-            
         ) {
             Button("Save", role: .none) {
                 roundManager.activeRound?.finishRound()
@@ -88,7 +87,7 @@ struct ScorecardView: View {
                 .font(.title)
         }
         .navigationDestination(isPresented: $navigateToSummary) {
-                RoundSummaryView(round: round)
+            RoundSummaryView(round: round)
         }
     }
 }
