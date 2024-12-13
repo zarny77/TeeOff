@@ -16,6 +16,8 @@ class RoundModel {
     var playedHoles: [Bool]
     var date: Date
     var holesPlayed: Int
+    var startTime: Date?
+    var endTime: Date?
     
     init(course: CourseModel) {
         self.id  = UUID()
@@ -24,9 +26,10 @@ class RoundModel {
         self.scores = course.holes.map { $0.par }
         self.playedHoles = Array(repeating: false, count: course.holes.count)
         self.holesPlayed = 0
+        self.startTime = Date()
     }
     
-    // MARK: - Score Management
+    // MARK: - Score / Round Management
     
     func updateScore(for holeIndex: Int, score: Int) {
         guard holeIndex >= 0 && holeIndex < scores.count else { return }
@@ -40,6 +43,10 @@ class RoundModel {
             playedHoles[holeIndex] = true
         }
         scores[holeIndex] = score
+    }
+    
+    func finishRound() {
+        self.endTime = Date()
     }
     
 }
@@ -86,6 +93,13 @@ extension RoundModel {
     var isPartial: Bool {
         holesPlayed > 0 && !isComplete
     }
+    
+    var roundDuration: TimeInterval? {
+        guard let start = startTime else { return nil }
+        let end = endTime ?? Date()
+        return end.timeIntervalSince(start)
+    }
+    
 }
 
 // MARK: - Formatting Helpers
@@ -99,5 +113,24 @@ extension RoundModel {
         case let score where score > 0: return "+\(score)"
         default: return "\(scoreRelativeToPar)"
         }
+    }
+    
+    func dateFormatted() -> String {
+        return date.formatted(date: .abbreviated, time: .omitted)
+    }
+    
+    func durationFormatted() -> String {
+        guard let duration = roundDuration else { return "Not Started" }
+        
+        let hours = Int(duration) / 3600
+        
+        let minutes = Int(duration) / 60 % 60
+        
+        if hours > 0 {
+            return "\(hours)h \(minutes)m"
+        } else {
+            return "\(minutes)m"
+        }
+        
     }
 }
