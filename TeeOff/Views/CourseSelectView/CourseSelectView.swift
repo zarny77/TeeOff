@@ -21,7 +21,7 @@ struct CourseSelectView: View {
             return courses
         }
         return courses.filter { course in
-            course.id.localizedCaseInsensitiveContains(searchText) ||
+            course.name.localizedCaseInsensitiveContains(searchText) ||
             course.address.localizedCaseInsensitiveContains(searchText)
         }
     }
@@ -45,7 +45,7 @@ struct CourseSelectView: View {
                 } else {
                     LazyVStack (spacing: 10) {
                         ForEach(filteredCourses) { course in
-                            CourseCardView(viewModel: CourseCardViewModel(course: course))
+                            CourseCardView(course: CourseViewModel(course: course))
                         }
                     }
                 }

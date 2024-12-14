@@ -11,7 +11,7 @@ struct SummaryDetailsView: View {
     
     private let logger = Logger(origin: "RoundSummaryView")
     
-    @Bindable var round: RoundModel
+    @Bindable var round: RoundViewModel
     
     private var scoreColour: Color {
         switch round.scoreRelativeToPar {
@@ -81,11 +81,11 @@ struct SummaryDetailsView: View {
         VStack(alignment: .leading) {
             Text("Round Summary")
                 .font(.headline)
-            Label(round.course.id, systemImage: "flag.fill")
+            Label(round.course.name, systemImage: "flag.fill")
                 .foregroundStyle(.secondary)
-            Label(round.dateFormatted(), systemImage: "calendar")
+            Label(round.date, systemImage: "calendar")
                 .foregroundStyle(.secondary)
-            Label(round.durationFormatted(), systemImage: "timer")
+            Label(round.duration, systemImage: "timer")
                 .foregroundStyle(.secondary)
         }
     }
@@ -95,5 +95,5 @@ struct SummaryDetailsView: View {
 
 // MARK: - Preview
 #Preview {
-    SummaryDetailsView(round: PreviewData.goodRound)
+    SummaryDetailsView(round: PreviewData.goodRoundViewModel)
 }

@@ -5,6 +5,8 @@
 //  Created by Dylan Zarn on 2024-12-07.
 //
 
+// TODO: Fix Course Par Statistics Block
+
 import SwiftUI
 import SwiftData
 
@@ -12,7 +14,7 @@ struct CourseOverviewView: View {
     
     private let logger = Logger(origin: "CourseOverviewView")
     
-    let viewModel: CourseOverviewViewModel
+    let course: CourseViewModel
     
     // MARK: - Properties
     
@@ -23,7 +25,7 @@ struct CourseOverviewView: View {
     
     private var hasActiveRoundAtThisCourse: Bool {
         guard let activeRound = roundManager.activeRound else { return false }
-        return activeRound.course.id == viewModel.course.id
+        return activeRound.course.name == course.name
     }
     
     // MARK: - Body
@@ -33,7 +35,7 @@ struct CourseOverviewView: View {
             VStack(alignment: .leading, spacing: 5) {
                 headerSection
                 Divider()
-                statisticsSection
+//                statisticsSection
             }
         }
         .cornerRadius(12)
@@ -59,7 +61,7 @@ struct CourseOverviewView: View {
                 handleRoundStart()
             }
         } message: {
-            Text("You have an active round at \(roundManager.activeRound?.course.id ?? ""). \n\n Would you like to continue that round or discard it and start a new one?")
+            Text("You have an active round at \(roundManager.activeRound?.course.name ?? "").\n\nWould you like to continue that round or discard it and start a new one?")
         }
     }
     
@@ -72,7 +74,7 @@ struct CourseOverviewView: View {
                 Text("Course Overview")
                     .font(.headline)
                     .padding(.vertical, 2)
-                Label(viewModel.address, systemImage: "location.fill")
+                Label(course.address, systemImage: "location.fill")
                     .font(.subheadline)
                     .frame(width: 241)
                     .minimumScaleFactor(0.5)
@@ -82,9 +84,9 @@ struct CourseOverviewView: View {
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                         .frame(width: 65)
-                    YardageView(viewModel.blues, .blue)
-                    YardageView(viewModel.whites, .white)
-                    YardageView(viewModel.reds, .red)
+                    YardageView(course.totalYardage, .blue)
+                    YardageView(course.totalYardage, .white)
+                    YardageView(course.totalYardage, .red)
                 }
                 
             }
@@ -112,22 +114,24 @@ struct CourseOverviewView: View {
         }
     }
     
-    private var statisticsSection: some View {
-        HStack {
-            VStack(alignment: .leading) {
-                ForEach(viewModel.parStats, id: \.label) { stat in
-                    StatRow(label: stat.label, value: stat.value)
-                }
-            }
-            Spacer()
-            
-            VStack(alignment: .trailing) {
-                ForEach(viewModel.averageStats, id: \.label) { stat in
-                    StatRow(label: stat.label, value: stat.value)
-                }
-            }
-        }
-    }
+    // MARK: - Statistics - Re-implement this when it's fixed
+    
+//    private var statisticsSection: some View {
+//        HStack {
+//            VStack(alignment: .leading) {
+//                ForEach(course.parStats, id: \.label) { stat in
+//                    StatRow(label: stat.label, value: stat.value)
+//                }
+//            }
+//            Spacer()
+//            
+//            VStack(alignment: .trailing) {
+//                ForEach(viewModel.averageStats, id: \.label) { stat in
+//                    StatRow(label: stat.label, value: stat.value)
+//                }
+//            }
+//        }
+//    }
     
     
     // MARK: - Round Management
@@ -135,7 +139,7 @@ struct CourseOverviewView: View {
     private func handleRoundStart() {
         if let activeRound = roundManager.activeRound {
             logger.log("Active round detected, checking course")
-            if activeRound.course.id != viewModel.course.id {
+            if activeRound.course.name != course.name {
                 logger.log("Different course accessed, should prompt for cancellation")
                 showingRoundConflictAlert = true
             } else {
@@ -144,22 +148,22 @@ struct CourseOverviewView: View {
             }
         } else {
             logger.log("No active round detected. Creating new round.")
-            createNewRound()
+//            createNewRound()
         }
     }
     
-    private func createNewRound() {
-        let round = RoundModel(course: viewModel.course)
-        modelContext.insert(round)
-        
-        roundManager.activeRound = round
-        shouldNavigate = true
-        logger.log("Active Round Set: \(logger.formatOptional(roundManager.activeRound?.course.id)) - \(logger.formatOptional(roundManager.activeRound?.date.formatted(date: .abbreviated, time: .omitted)))")
-        logger.log("Should Navigate: \(shouldNavigate)")
-    }
+//    private func createNewRound() {
+//        let round = RoundViewModel
+//        modelContext.insert(round)
+//        
+//        roundManager.activeRound = round
+//        shouldNavigate = true
+//        logger.log("Active Round Set: \(logger.formatOptional(roundManager.activeRound?.course.id)) - \(logger.formatOptional(roundManager.activeRound?.date.formatted(date: .abbreviated, time: .omitted)))")
+//        logger.log("Should Navigate: \(shouldNavigate)")
+//    }
     
 }
 
 #Preview {
-    CourseOverviewView(viewModel: CourseOverviewViewModel(course: CourseRepository.shared.courses[0]))
+    CourseOverviewView(course: CourseViewModel(course: PreviewData.Courses.sample))
 }

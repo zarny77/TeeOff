@@ -5,6 +5,8 @@
 //  Created by Dylan Zarn on 2024-11-01.
 //
 
+
+
 import SwiftUI
 import SwiftData
 
@@ -15,7 +17,7 @@ struct ScorecardView: View {
     let columnLayout = Array(repeating: GridItem(.flexible(), spacing: 10), count: 2)
     private let logger = Logger(origin: "ScorecardView")
     
-    @Bindable var round: RoundModel
+    @Bindable var round: RoundViewModel
         
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
@@ -62,7 +64,7 @@ struct ScorecardView: View {
             .padding(.horizontal, 10)
             .foregroundStyle(.green)
         }
-        .navigationTitle(round.course.id)
+        .navigationTitle(round.course.name)
         .navigationBarTitleDisplayMode(.automatic)
         .confirmationDialog(
             "Finish Round",
@@ -95,5 +97,5 @@ struct ScorecardView: View {
 // MARK: - Preview
 
 #Preview {
-    ScorecardView(round: PreviewData.goodRound)
+    ScorecardView(round: PreviewData.goodRoundViewModel)
 }

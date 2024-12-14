@@ -5,6 +5,8 @@
 //  Created by Dylan Zarn on 2024-11-01.
 //
 
+// TODO: Make HoleViewModel
+
 import SwiftData
 import Foundation
 

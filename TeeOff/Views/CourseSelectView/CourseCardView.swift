@@ -5,12 +5,16 @@
 //  Created by Dylan Zarn on 2024-11-02.
 //
 
+// TODO: Fix Yardages
+// TODO: Fix Navigation
+
+
 import Foundation
 import SwiftUI
 
 struct CourseCardView: View {
     
-    let viewModel: CourseCardViewModel
+    let course: CourseViewModel
     private let logger = Logger(origin: "CourseCardView")
     
     // MARK: - Body
@@ -55,14 +59,14 @@ struct CourseCardView: View {
     // Name and address
     private var courseIdentifiers: some View {
         VStack(alignment: .leading) {
-            Text(viewModel.name)
+            Text(course.name)
                 .font(.title2)
                 .fontWeight(.heavy)
                 .multilineTextAlignment(.leading)
                 .frame(alignment: .topLeading)
                 .minimumScaleFactor(0.5)
             
-            Text(viewModel.address)
+            Text(course.address)
                 .multilineTextAlignment(.leading)
                 .font(.caption)
                 .fontWeight(.bold)
@@ -72,41 +76,40 @@ struct CourseCardView: View {
     
     // Yardage indicators
     private var courseYardages: some View {
-        ForEach(viewModel.yardageData, id: \.yardage) {
-            yardage, color in YardageView( yardage, color)
+        YardageView(course.totalYardage,)
         }
     }
     
     // Par for the course
     private var parDisplay: some View {
-        Text(viewModel.parDisplay)
+        Text(course.totalPar)
             .font(.title)
             .fontWeight(.medium)
             .frame(alignment: .topTrailing)
     }
     
     // 'View' Button to CourseDetailView
-    private var viewButton: some View {
-        NavigationLink(destination: CourseDetailView(course: viewModel.course)) {
-            Label(
-                "View",
-                systemImage: "menucard"
-            )
-        }
-        .font(.system(size: 18))
-        .buttonStyle(.borderedProminent)
-        .onTapGesture {
-            logger.log("Navigating to: \(viewModel.course.id) Details", level: .info)
-        }
+private var viewButton: some View {
+    NavigationLink(destination: CourseDetailView(course: course)) {
+        Label(
+            "View",
+            systemImage: "menucard"
+        )
+    }
+    .font(.system(size: 18))
+    .buttonStyle(.borderedProminent)
+    .onTapGesture {
+        logger.log("Navigating to: \(viewModel.course.id) Details", level: .info)
     }
 }
+
 
 
 // MARK: - Preview
 #Preview {
     NavigationView {
         VStack(spacing: 20) {
-            CourseCardView(viewModel: CourseCardViewModel(course: PreviewData.Courses.sample))
+            CourseCardView(course: CourseViewModel(course: PreviewData.Courses.sample))
         }
         .padding()
     }

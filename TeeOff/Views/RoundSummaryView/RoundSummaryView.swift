@@ -13,7 +13,7 @@ struct RoundSummaryView: View {
     // MARK: - Properties
     let columnLayout = Array(repeating: GridItem(.flexible(), spacing: 10), count: 2)
     private let logger = Logger(origin: "RoundSummaryView")
-    @Bindable var round: RoundModel
+    @Bindable var round: RoundViewModel
     
     // MARK: - Body
     var body: some View {
@@ -32,8 +32,8 @@ struct RoundSummaryView: View {
                 ForEach(round.course.holes) { hole in
                     ScoredHoleView(
                         hole: hole,
-                        score: round.scores[hole.id-1],
-                        played: round.playedHoles[hole.id-1]
+                        score: round.scoreForHole(hole.id-1),
+                        played: round.isHolePlayed(hole.id-1)
                     )
                 }
             }
@@ -45,5 +45,5 @@ struct RoundSummaryView: View {
 // MARK: - Preview
 
 #Preview {
-    RoundSummaryView(round: PreviewData.goodRound)
+    RoundSummaryView(round: PreviewData.goodRoundViewModel)
 }

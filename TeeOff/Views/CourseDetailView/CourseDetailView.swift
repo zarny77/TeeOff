@@ -12,15 +12,15 @@ struct CourseDetailView: View {
     // define column count and spacing
     let columnLayout = Array(repeating: GridItem(.flexible(), spacing: 10), count: 2)
     
-    var course: CourseModel
+    var course: CourseViewModel
     
     var body: some View {
             ScrollView {
                 
-                CourseOverviewView(viewModel: CourseOverviewViewModel(course: course))
+                CourseOverviewView(viewModel: course)
                 holeGridSection
             }
-            .navigationTitle("\(course.id)")
+            .navigationTitle(course.name)
         }
 
     // MARK: - Subview
@@ -48,6 +48,6 @@ struct CourseDetailView: View {
 
 #Preview {
     NavigationView {
-        CourseDetailView(course: CourseRepository.shared.courses[0])
+        CourseDetailView(course: CourseViewModel(course: PreviewData.Courses.sample))
     }
 }
