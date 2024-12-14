@@ -12,17 +12,24 @@ import Foundation
 
 @Model
 class CourseModel {
+    // MARK: - Properties
     
-    var id: String
+    // Descriptors
+    var id: UUID
+    var name: String
     var address: String
+    
+    // Course Info
     var blues: Int
     var whites: Int
     var reds: Int
     var par: Int
     @Relationship(deleteRule: .cascade) var holes: [HoleModel] = []
     
-    init(id: String, address: String, blues: Int, whites: Int, reds: Int, par: Int, holes: [HoleModel]) {
-        self.id = id
+    // Init
+    init(name: String, address: String, blues: Int, whites: Int, reds: Int, par: Int, holes: [HoleModel]) {
+        self.id = UUID()
+        self.name = name
         self.address = address
         self.blues = blues
         self.whites = whites
@@ -31,7 +38,9 @@ class CourseModel {
         self.holes = holes
     }
     
-    // Course Yardage total
+    // MARK: - Course Breakdown
+    
+    // Yardage totals
     
     var totalBlues: Int {
         holes.reduce(0) { $0 + $1.blues }

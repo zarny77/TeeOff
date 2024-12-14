@@ -20,10 +20,6 @@ class CourseRepository {
         .maplewood
     ]
     
-    func findCourse(byID id: String) -> CourseModel? {
-        courses.first { $0.id == id }
-    }
-    
 }
     
 private extension CourseModel {
@@ -31,7 +27,7 @@ private extension CourseModel {
     // St. Boniface Golf Course
     static var stBoniface: CourseModel {
         CourseModel(
-            id: "St. Boniface GC",
+            name: "St. Boniface GC",
             address: "100 Rue Youville, Winnipeg, MB",
             blues: 6348,
             whites: 6104,
@@ -63,7 +59,7 @@ private extension CourseModel {
     // Southside Golf Course
     static var southside: CourseModel {
         CourseModel(
-            id: "Southside Golf Course",
+            name: "Southside Golf Course",
             address: "2226 Southside Road, Grande Pointe, MB",
             blues: 4696,
             whites: 4190,
@@ -95,7 +91,7 @@ private extension CourseModel {
     // Maplewood Golf Club
     static var maplewood: CourseModel {
         CourseModel(
-            id: "Maplewood Golf Club",
+            name: "Maplewood Golf Club",
             address: "19113 Cure Road, St-Pierre-Jolys, MB",
             blues: 5731,
             whites: 5330,
