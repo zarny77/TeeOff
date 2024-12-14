@@ -5,6 +5,8 @@
 //  Created by Dylan Zarn on 2024-12-13.
 //
 
+// TODO: Round Storage / Save Management
+
 import Foundation
 import SwiftUI
 import SwiftData
@@ -27,16 +29,25 @@ class RoundViewModel {
         round.totalScore
     }
     
-    var scoreRelativeToPar: String {
-        round.scoreRelativeToParFormatted
+    var scoreRelativeToPar: Int {
+        round.scoreRelativeToPar
     }
     
     var date: String {
-        round.dateFormatted()
+        round.date.formatted(date: .abbreviated, time: .omitted)
     }
     
     var duration: String {
-        round.durationFormatted()
+        guard let duration = round.roundDuration else { return "Not Started" }
+        
+        let hours = Int(duration) / 3600
+        let minutes = Int(duration) / 60 % 60
+        
+        if hours > 0 {
+            return "\(hours)h \(minutes)m"
+        } else {
+            return "\(minutes)m"
+        }
     }
     
     var isComplete: Bool {
@@ -45,6 +56,18 @@ class RoundViewModel {
     
     var holesPlayed: Int {
         round.holesPlayed
+    }
+    
+    var frontNine: Int {
+        round.frontNine
+    }
+    
+    var backNine: Int {
+        round.backNine
+    }
+    
+    var course: CourseModel {
+        round.course
     }
     
     // MARK: - Score Management
@@ -73,17 +96,13 @@ class RoundViewModel {
         round.course.holes[index].par
     }
     
-    // MARK: - Score Stats
+    // MARK: - Formatting Helpers
     
-    func scoreRelativeToParForHole(_ index: Int) -> String {
-        let score = scoreForHole(index)
-        let par = parForHole(index)
-        let diff = score - par
-        
-        switch diff {
+    var scoreRelativeToParFormatted: String {
+        switch round.scoreRelativeToPar {
         case 0: return "E"
-        case let x where x > 0: return "+\(x)"
-        default: return "\(diff)"
+        case let score where score > 0: return "+\(score)"
+        default: return "\(round.scoreRelativeToPar)"
         }
     }
     

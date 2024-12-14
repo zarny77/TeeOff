@@ -101,36 +101,3 @@ extension RoundModel {
     }
     
 }
-
-// MARK: - Formatting Helpers
-
-extension RoundModel {
-    
-    // returns an over / under / even indicator for the score made
-    var scoreRelativeToParFormatted: String {
-        switch scoreRelativeToPar {
-        case 0: return "E"
-        case let score where score > 0: return "+\(score)"
-        default: return "\(scoreRelativeToPar)"
-        }
-    }
-    
-    func dateFormatted() -> String {
-        return date.formatted(date: .abbreviated, time: .omitted)
-    }
-    
-    func durationFormatted() -> String {
-        guard let duration = roundDuration else { return "Not Started" }
-        
-        let hours = Int(duration) / 3600
-        
-        let minutes = Int(duration) / 60 % 60
-        
-        if hours > 0 {
-            return "\(hours)h \(minutes)m"
-        } else {
-            return "\(minutes)m"
-        }
-        
-    }
-}
