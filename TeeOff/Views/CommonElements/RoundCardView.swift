@@ -11,7 +11,7 @@ struct RoundCardView: View {
     
     private let logger = Logger(origin: "RoundCardView")
     
-    @Bindable var round: RoundModel
+    @Bindable var round: RoundViewModel
     
     private var scoreColour: Color {
         switch round.scoreRelativeToPar {
@@ -81,9 +81,9 @@ struct RoundCardView: View {
             Text(round.course.name)
                 .font(.title3)
                 .fontWeight(.bold)
-            Label(round.dateFormatted(), systemImage: "calendar")
+            Label(round.date, systemImage: "calendar")
                 .foregroundStyle(.secondary)
-            Label(round.durationFormatted(), systemImage: "timer")
+            Label(round.duration, systemImage: "timer")
                 .foregroundStyle(.secondary)
         }
     }
@@ -93,5 +93,5 @@ struct RoundCardView: View {
 
 // MARK: - Preview
 #Preview {
-    RoundCardView(round: PreviewData.goodRound)
+    RoundCardView(round: PreviewData.goodRoundViewModel)
 }
