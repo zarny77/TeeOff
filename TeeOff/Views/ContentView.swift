@@ -6,10 +6,8 @@
 //
 
 /*
- FIXME: Selecting an active round from a different course alert causes the navigation to link back to the different course
- TODO: Active round indicators on CourseCardView
- TODO: build out stats view
- 
+ TODO: ViewModels
+ FIXME: Round Persistence
  */
 
 import SwiftUI
