@@ -38,7 +38,7 @@ struct CourseCardView: View {
                         Spacer()
                     }
                 }
-                .padding(.horizontal, 25)
+                    .padding(.horizontal, 25)
             ) // overlay
     }
     
@@ -76,35 +76,38 @@ struct CourseCardView: View {
     
     // Yardage indicators
     private var courseYardages: some View {
-        YardageView(course.totalYardage,)
+        VStack {
+            YardageView(course.totalBlues, .blue)
+            YardageView(course.totalWhites, .white)
+            YardageView(course.totalReds, .red)
         }
     }
     
     // Par for the course
     private var parDisplay: some View {
-        Text(course.totalPar)
+        Text("\(course.totalPar)")
             .font(.title)
             .fontWeight(.medium)
             .frame(alignment: .topTrailing)
     }
     
     // 'View' Button to CourseDetailView
-private var viewButton: some View {
-    NavigationLink(destination: CourseDetailView(course: course)) {
-        Label(
-            "View",
-            systemImage: "menucard"
-        )
-    }
-    .font(.system(size: 18))
-    .buttonStyle(.borderedProminent)
-    .onTapGesture {
-        logger.log("Navigating to: \(viewModel.course.id) Details", level: .info)
+    private var viewButton: some View {
+        NavigationLink(destination: CourseDetailView(course: course)) {
+            Label(
+                "View",
+                systemImage: "menucard"
+            )
+        }
+        .font(.system(size: 18))
+        .buttonStyle(.borderedProminent)
+        .onTapGesture {
+            logger.log("Navigating to: \(course.name) Details", level: .info)
+        }
     }
 }
-
-
-
+    
+    
 // MARK: - Preview
 #Preview {
     NavigationView {
