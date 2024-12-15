@@ -14,7 +14,6 @@ class CourseViewModel {
     // MARK: - Properties
     
     private var course: CourseModel
-    private(set) var selectedTee: TeeColor = .blue
     
     // MARK: - Computed Properties
     
@@ -32,37 +31,40 @@ class CourseViewModel {
     }
     
     // Yardages
-    var totalYardage: Int {
-        switch selectedTee {
-        case .blue:
-            return course.totalBlues
-        case .white:
-            return course.totalWhites
-        case .red:
-            return course.totalReds
-        }
+    var totalBlues: Int {
+        course.totalBlues
     }
     
-    var frontNineYardage: Int {
-        switch selectedTee {
-        case .blue:
-            return course.frontBlues
-        case .white:
-            return course.frontWhites
-        case .red:
-            return course.frontReds
-        }
+    var totalWhites: Int {
+        course.totalWhites
     }
     
-    var backNineYardage: Int {
-        switch selectedTee {
-        case .blue:
-            return course.backBlues
-        case .white:
-            return course.backWhites
-        case .red:
-            return course.backReds
-        }
+    var totalReds: Int {
+        course.totalReds
+    }
+    
+    var frontBlues: Int {
+        course.frontBlues
+    }
+    
+    var frontWhites: Int {
+        course.frontWhites
+    }
+    
+    var frontReds: Int {
+        course.frontReds
+    }
+    
+    var backBlues: Int {
+        course.backBlues
+    }
+    
+    var backWhites: Int {
+        course.backWhites
+    }
+    
+    var backReds: Int {
+        course.backReds
     }
     
     // Par Info
@@ -82,27 +84,5 @@ class CourseViewModel {
     init(course: CourseModel) {
         self.course = course
     }
-    
-    // MARK: - Methods
-    func changeTee(to color: TeeColor) {
-        selectedTee = color
-    }
 }
 
-// MARK: - TeeColor
-enum TeeColor {
-    case blue
-    case white
-    case red
-    
-    var name: String {
-        switch self {
-        case .blue:
-            return "Blue"
-        case .white:
-            return "White"
-        case .red:
-            return "Red"
-        }
-    }
-}
