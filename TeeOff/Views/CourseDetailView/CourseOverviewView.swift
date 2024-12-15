@@ -18,7 +18,6 @@ struct CourseOverviewView: View {
     
     // MARK: - Properties
     
-    @Environment(\.modelContext) private var modelContext
     @State private var shouldNavigate = false
     @State private var roundManager = RoundManager.shared
     @State private var showingRoundConflictAlert = false
@@ -84,9 +83,9 @@ struct CourseOverviewView: View {
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                         .frame(width: 65)
-                    YardageView(course.totalYardage, .blue)
-                    YardageView(course.totalYardage, .white)
-                    YardageView(course.totalYardage, .red)
+                    YardageView(course.totalBlues, .blue)
+                    YardageView(course.totalWhites, .white)
+                    YardageView(course.totalReds, .red)
                 }
                 
             }
