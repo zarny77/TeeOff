@@ -79,7 +79,7 @@ struct ScorecardView: View {
             }
             
             Button("Discard", role: .destructive) {
-                modelContext.delete(round)
+                round.deleteRound()
                 roundManager.activeRound = nil
                 dismiss()
                 logger.log("Round Deleted", level: .success)
