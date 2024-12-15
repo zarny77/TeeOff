@@ -17,7 +17,7 @@ struct CourseDetailView: View {
     var body: some View {
             ScrollView {
                 
-                CourseOverviewView(viewModel: course)
+                CourseOverviewView(course: course)
                 holeGridSection
             }
             .navigationTitle(course.name)
@@ -43,7 +43,6 @@ struct CourseDetailView: View {
             .padding(.horizontal, 10)
         }
     }
-    
 }
 
 #Preview {
