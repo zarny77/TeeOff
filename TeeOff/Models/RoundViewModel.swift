@@ -77,9 +77,16 @@ class RoundViewModel {
         save()
     }
     
+    // MARK: - Model Management
+    
     func finishRound() {
         round.finishRound()
         save()
+    }
+    
+    func deleteRound() {
+        modelContext.delete(round)
+        logger.log("Deleted round: \(round.id)", level: .success)
     }
     
     // MARK: - Hole Status
