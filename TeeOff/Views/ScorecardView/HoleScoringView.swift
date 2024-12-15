@@ -14,15 +14,11 @@ import SwiftUI
 struct HoleScoringView: View {
     // MARK: - Properties
     var hole: HoleModel
-    @Bindable var round: RoundModel
+    @Bindable var round: RoundViewModel
     
     private var score: Int {
-        get { round.scores[hole.id - 1] } // hole id is 1 based,
+        get { round.scoreForHole(hole.id - 1) } // hole id is 1 based,
         nonmutating set { round.updateScore(for: hole.id - 1, score: newValue) }
-    }
-    
-    private var isHolePlayed: Bool {
-        round.playedHoles[hole.id - 1]
     }
     
     private var scoreRelativeToPar: Int { score - hole.par }
@@ -43,7 +39,7 @@ struct HoleScoringView: View {
     
     
     // MARK: - Initialization & Logging
-    init(hole: HoleModel, round: RoundModel) {
+    init(hole: HoleModel, round: RoundViewModel) {
         self.hole = hole
         self.round = round
     }
@@ -85,7 +81,7 @@ struct HoleScoringView: View {
             Text(String(hole.id))
                 .font(.system(size: 60))
                 .fontWeight(.heavy)
-                .foregroundStyle(isHolePlayed ? .green : .secondary)
+                .foregroundStyle(round.isHolePlayed(hole.id - 1) ? .green : .secondary)
                 .frame(height: 60)
                 .minimumScaleFactor(0.1)
             
@@ -120,7 +116,7 @@ struct HoleScoringView: View {
             .fontWeight(.black)
             .frame(width: 100, height: 100)
             .minimumScaleFactor(0.5)
-            .foregroundStyle(isHolePlayed ? .primary : .secondary)
+            .foregroundStyle(round.isHolePlayed(hole.id - 1) ? .primary : .secondary)
             .onTapGesture {
                 parHaptic.impactOccurred()
                 round.updateScore(for: hole.id - 1, score: score)
@@ -169,9 +165,9 @@ struct HoleScoringView: View {
 #Preview {
     NavigationView {
         VStack(spacing: 20) {
-            HoleScoringView(hole: PreviewData.Holes.parThree, round: PreviewData.goodRound)
-            HoleScoringView(hole: PreviewData.Holes.parFour, round: PreviewData.badRound)
-            HoleScoringView(hole: PreviewData.Holes.parFive, round:PreviewData.completedPar)
+            HoleScoringView(hole: PreviewData.Holes.parThree, round: PreviewData.goodRoundViewModel)
+            HoleScoringView(hole: PreviewData.Holes.parFour, round: PreviewData.badRoundViewModel)
+            HoleScoringView(hole: PreviewData.Holes.parFive, round:PreviewData.completedParViewModel)
         }
         .padding()
     }
