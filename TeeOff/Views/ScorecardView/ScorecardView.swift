@@ -2,16 +2,19 @@
 //  ScorecardView.swift
 //  TeeOff
 //
+//  Used for scoring a round
+//  Displayed following a round start in CourseDetailView
+//  Persists until a round is saved or discarded
+//
 //  Created by Dylan Zarn on 2024-11-01.
 //
 
-
+// TODO: Fix ModelContext
 
 import SwiftUI
 import SwiftData
 
 struct ScorecardView: View {
-        
     // MARK: - Properties
     
     let columnLayout = Array(repeating: GridItem(.flexible(), spacing: 10), count: 2)
@@ -26,7 +29,6 @@ struct ScorecardView: View {
     @State private var roundManager = RoundManager.shared
 
     // MARK: - Body
-    
     var body: some View {
         ScrollView{
             scorecardGrid
@@ -36,6 +38,7 @@ struct ScorecardView: View {
     
     // MARK: - Components
     
+    // shows the HoleScoringView for each hole in a grid
     private var scorecardGrid: some View {
         LazyVGrid(
             columns: columnLayout, spacing: 10, content:  {
@@ -47,7 +50,8 @@ struct ScorecardView: View {
         .padding(.horizontal, 10)
     }
     
-     
+    // Used to save or discard a round.
+    // TODO: Change to work with new ViewModel
     private var finishButton: some View {
         HStack(spacing: 10) {
             Button {

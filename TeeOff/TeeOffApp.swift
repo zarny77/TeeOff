@@ -9,9 +9,6 @@ import SwiftUI
 
 @main
 struct TeeOffApp: App {
-    
-    
-    
     var body: some Scene {
         WindowGroup {
             ContentView()

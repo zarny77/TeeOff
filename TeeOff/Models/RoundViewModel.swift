@@ -2,6 +2,10 @@
 //  RoundViewModel.swift
 //  TeeOff
 //
+//  interface for the RoundModel
+//  handles persistence management and
+//  updating for the modelcontext
+
 //  Created by Dylan Zarn on 2024-12-13.
 //
 
@@ -105,6 +109,8 @@ class RoundViewModel {
     
     // MARK: - Formatting Helpers
     
+    // returns the score of the round
+    // relative to the course par as a string
     var scoreRelativeToParFormatted: String {
         switch round.scoreRelativeToPar {
         case 0: return "E"

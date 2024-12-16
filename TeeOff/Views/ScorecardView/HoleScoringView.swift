@@ -17,7 +17,7 @@ struct HoleScoringView: View {
     @Bindable var round: RoundViewModel
     
     private var score: Int {
-        get { round.scoreForHole(hole.id - 1) } // hole id is 1 based,
+        get { round.scoreForHole(hole.id - 1) }
         nonmutating set { round.updateScore(for: hole.id - 1, score: newValue) }
     }
     
@@ -38,7 +38,7 @@ struct HoleScoringView: View {
     private let scoreHaptic = UIImpactFeedbackGenerator(style: .medium)
     
     
-    // MARK: - Initialization & Logging
+    // MARK: - Initialization
     init(hole: HoleModel, round: RoundViewModel) {
         self.hole = hole
         self.round = round
@@ -72,11 +72,11 @@ struct HoleScoringView: View {
     
     
     // MARK: - Components
+    
+    // Shows the yardages, par, and hole number
     private var holeInfoStack: some View {
         VStack(alignment: .center) {
-            
             Spacer()
-            
             // Hole number
             Text(String(hole.id))
                 .font(.system(size: 60))
@@ -109,7 +109,11 @@ struct HoleScoringView: View {
         .padding(.vertical, 10)
     }
     
-    
+    /*
+     Shows and manages the logic for the score indicator
+     Score updates when tapped, used for marking a par
+     without having to change the score
+    */
     private var scoreIndicator: some View {
         Text(String(score))
             .font(.system(size: 100))
@@ -139,14 +143,13 @@ struct HoleScoringView: View {
                 scoreHaptic.impactOccurred()
                 self.score -= 1
             } else {
-                logger.log("Failed to subtract: Score cannot be below 1.", level: .error)
+                logger.log("Score cannot be below 1. Did not subtract.", level: .success)
             }
         })
         .symbolRenderingMode(.hierarchical)
         .font(.largeTitle)
         .labelStyle(.iconOnly)
     }
-    
     
     private var addButton: some View {
         Button("Add Stroke", systemImage: "plus.circle.fill", action: {
