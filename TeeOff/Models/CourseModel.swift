@@ -1,6 +1,6 @@
 //
 //  Course.swift
-//  TeeOff
+//  HoleOut
 //
 //  The model for the Course DS. 
 //

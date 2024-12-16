@@ -3,7 +3,7 @@
 //
 //  Used in ScorecardView to handle user input for scoring
 //
-//  TeeOff
+//  HoleOut
 //
 //  Created by Dylan Zarn on 2024-11-01.
 //

@@ -1,6 +1,6 @@
 //
-//  TeeOffUITests.swift
-//  TeeOffUITests
+//  HoleOutUITests.swift
+//  HoleOutUITests
 //
 //  Created by Dylan Zarn on 2024-11-01.
 //

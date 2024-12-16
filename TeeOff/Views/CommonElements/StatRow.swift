@@ -1,6 +1,6 @@
 //
 //  StatRow.swift
-//  TeeOff
+//  HoleOut
 //
 //  Created by Dylan Zarn on 2024-12-09.
 //

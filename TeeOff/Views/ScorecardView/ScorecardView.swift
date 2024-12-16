@@ -1,6 +1,6 @@
 //
 //  ScorecardView.swift
-//  TeeOff
+//  HoleOut
 //
 //  Used for scoring a round
 //  Displayed following a round start in CourseDetailView

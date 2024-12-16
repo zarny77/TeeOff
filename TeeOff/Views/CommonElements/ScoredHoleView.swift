@@ -5,7 +5,7 @@
 //  Shows the hole details, the score given,
 //  and whether it's over / under par
 //
-//  TeeOff
+//  HoleOut
 //
 //  Created by Dylan Zarn on 2024-11-01.
 //
