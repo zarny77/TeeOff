@@ -16,25 +16,44 @@ import SwiftData
 
 struct ScorecardView: View {
     // MARK: - Properties
-    
     let columnLayout = Array(repeating: GridItem(.flexible(), spacing: 10), count: 2)
     private let logger = Logger(origin: "ScorecardView")
     
-    @Bindable var round: RoundViewModel
-        
-    @Environment(\.modelContext) private var modelContext
-    @Environment(\.dismiss) private var dismiss
     @State private var showingFinishConfirmation = false
-    @State private var navigateToSummary = false
-    @State private var roundManager = RoundManager.shared
-
+    
+    @Bindable var round: RoundViewModel
+    
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
+    
+    let onFinish: () -> Void
+    let onCleanup: () -> Void
+    
     // MARK: - Body
     var body: some View {
         ScrollView{
-            scorecardGrid
-            finishButton
+            VStack(spacing: 10) {
+                scorecardGrid
+                finishButton
+            }
+            .padding(.vertical)
+        }
+        .navigationTitle(round.course.name)
+        .navigationBarTitleDisplayMode(.inline)
+        .onChange(of: showingFinishConfirmation) { oldValue, newValue in
+            logger.log("showingFinishConfirmation changed from \(oldValue) to \(newValue)")
+        }
+        .confirmationDialog(
+            "Finish Round",
+            isPresented: $showingFinishConfirmation,
+            titleVisibility: .visible
+        ) {
+            confirmationButtons
+        } message : {
+            Text("Would you like to save this round?")
         }
     }
+        
     
     // MARK: - Components
     
@@ -50,10 +69,8 @@ struct ScorecardView: View {
         .padding(.horizontal, 10)
     }
     
-    // Used to save or discard a round.
-    // TODO: Change to work with new ViewModel
+    // Used to save or discard a round
     private var finishButton: some View {
-        HStack(spacing: 10) {
             Button {
                 showingFinishConfirmation = true
                 logger.log("'Finish Round' pressed", level: .info)
@@ -67,39 +84,49 @@ struct ScorecardView: View {
             .buttonStyle(.bordered)
             .padding(.horizontal, 10)
             .foregroundStyle(.green)
-        }
-        .navigationTitle(round.course.name)
-        .navigationBarTitleDisplayMode(.automatic)
-        .confirmationDialog(
-            "Finish Round",
-            isPresented: $showingFinishConfirmation,
-            titleVisibility: .automatic
-        ) {
-            Button("Save", role: .none) {
-                roundManager.activeRound?.finishRound()
-                roundManager.activeRound = nil
-                navigateToSummary = true
-                logger.log("Saved round", level: .success)
+    }
+    
+    private var confirmationButtons: some View {
+        Group {
+            Button("Save") {
+                finishRound()
             }
             
             Button("Discard", role: .destructive) {
-                round.deleteRound()
-                roundManager.activeRound = nil
-                dismiss()
-                logger.log("Round Deleted", level: .success)
+                discardRound()
             }
-        } message: {
-            Text("Save this round?")
-                .font(.title)
-        }
-        .navigationDestination(isPresented: $navigateToSummary) {
-            RoundSummaryView(round: round)
+            
+            Button("Cancel", role: .cancel) {
+                showingFinishConfirmation = false
+            }
         }
     }
+    
+    // MARK: - Navigation Actions
+    
+    private func finishRound() {
+        logger.log("Starting finishRound()")
+        round.finishRound()
+        logger.log("Round.finishRound() called")
+        showingFinishConfirmation = false
+        logger.log("Dismissed confirmation dialog")
+        logger.log("Calling onFinish callback")
+        withAnimation(.easeInOut) {
+            onFinish()
+        }
+        logger.log("finishRound() completed")
+    }
+    
+    private func discardRound() {
+        round.deleteRound()
+        onCleanup()
+        logger.log("Round discarded")
+    }
+    
 }
 
 // MARK: - Preview
 
 #Preview {
-    ScorecardView(round: PreviewData.goodRoundViewModel)
+    ScorecardView(round: PreviewData.goodRoundViewModel, onFinish: {}, onCleanup: {})
 }

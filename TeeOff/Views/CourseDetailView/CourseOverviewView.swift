@@ -12,61 +12,57 @@ import SwiftData
 
 struct CourseOverviewView: View {
     
+    
+    @Environment(\.modelContext) private var modelContext
+    @State private var activeRound: RoundViewModel?
+    @State private var showingSummary = false
+    @State private var showingScorecard = false
     private let logger = Logger(origin: "CourseOverviewView")
     
     let course: CourseViewModel
-
-    let round = RoundViewModel.createRound(for: course.course, modelContext: modelContext)
     
-
-    
-    // MARK: - Properties
-    
-    @State private var shouldNavigate = false
-    @State private var roundManager = RoundManager.shared
-    @State private var showingRoundConflictAlert = false
-    
-    private var hasActiveRoundAtThisCourse: Bool {
-        guard let activeRound = roundManager.activeRound else { return false }
-        return activeRound.course.name == course.name
-    }
     
     // MARK: - Body
-    
     var body: some View  {
         GroupBox {
             VStack(alignment: .leading, spacing: 5) {
                 headerSection
                 Divider()
-//                statisticsSection
+                statisticsSection
             }
         }
         .cornerRadius(12)
         .padding(.horizontal, 10)
-//        .navigationDestination(isPresented: $shouldNavigate) {
-//            if let round = roundManager.activeRound {
-//                ScorecardView(round: round)
-//            }
-//        }
-//        .alert(
-//            "Active Round in Progress",
-//            isPresented: $showingRoundConflictAlert
-//        ) {
-//            Button("Continue Active Round", role: .cancel) {
-//                shouldNavigate = true
-//            }
-//            
-//            Button("Discard Active Round", role: .destructive) {
-//                if let activeRound = roundManager.activeRound {
-//                    modelContext.delete(activeRound)
-//                }
-//                roundManager.activeRound = nil
-//                handleRoundStart()
-//            }
-//        } message: {
-//            Text("You have an active round at \(roundManager.activeRound?.course.name ?? "").\n\nWould you like to continue that round or discard it and start a new one?")
-//        }
+        .navigationDestination(isPresented: $showingScorecard) {
+            if let round = activeRound {
+                ScorecardView(
+                    round: round,
+                    onFinish: {
+                        logger.log("Round finished, showing summary")
+                        showingScorecard = false
+                        showingSummary = true
+                    },
+                    onCleanup: {
+                        logger.log("Round Cleanup triggered")
+                        showingScorecard = false
+                        activeRound = nil
+                    }
+                )
+            }
+        }
+        .navigationDestination(isPresented: $showingSummary) {
+            if let round = activeRound {
+                RoundSummaryView(round: round)
+                    .onDisappear {
+                        logger.log("Summary view disappeared, cleaning up")
+                        showingSummary = false
+                        activeRound = nil
+                    }
+                    .transition(.slide)
+            }
+        }
     }
+        
     
     // MARK: - Subviews
     
@@ -103,69 +99,41 @@ struct CourseOverviewView: View {
     private var startRoundButton: some View {
         VStack {
             Spacer()
-            
             Button {
-                handleRoundStart()
+                let round = RoundViewModel.createRound(for: course.courseModel, modelContext: modelContext)
+                activeRound = round
+                showingScorecard = true
+                logger.log("Created new round at: \(course.name)", level: .info)
             } label: {
-                Label(hasActiveRoundAtThisCourse ? "Continue" : "Start" ,
-                      systemImage: hasActiveRoundAtThisCourse ? "arrow.right" : "figure.golf")
+                Label("Start", systemImage:"figure.golf")
             }
             .font(.system(size: 13))
             .frame(width: 105)
             .buttonStyle(.borderedProminent)
+            
             Spacer()
         }
     }
     
     // MARK: - Statistics - Re-implement this when it's fixed
     
-//    private var statisticsSection: some View {
-//        HStack {
-//            VStack(alignment: .leading) {
-//                ForEach(course.parStats, id: \.label) { stat in
-//                    StatRow(label: stat.label, value: stat.value)
-//                }
-//            }
-//            Spacer()
-//            
-//            VStack(alignment: .trailing) {
-//                ForEach(viewModel.averageStats, id: \.label) { stat in
-//                    StatRow(label: stat.label, value: stat.value)
-//                }
-//            }
-//        }
-//    }
-    
-    
-    // MARK: - Round Management
-    
-    private func handleRoundStart() {
-        if let activeRound = roundManager.activeRound {
-            logger.log("Active round detected, checking course")
-            if activeRound.course.name != course.name {
-                logger.log("Different course accessed, should prompt for cancellation")
-                showingRoundConflictAlert = true
-            } else {
-                logger.log("Course with active round selected, navigating to active round")
-                shouldNavigate = true
+    private var statisticsSection: some View {
+        HStack {
+            VStack(alignment: .leading) {
+                StatRow(label: "Par", value: "\(course.totalPar)")
+                StatRow(label: "Front", value: "\(course.frontPar)")
+                StatRow(label: "Back", value: "\(course.backPar)")
             }
-        } else {
-            logger.log("No active round detected. Creating new round.")
-//            createNewRound()
+            
+            Spacer()
+            
+            // Put averages in here once rounds are handled again
         }
     }
     
-//    private func createNewRound() {
-//        let round = RoundViewModel
-//        modelContext.insert(round)
-//        
-//        roundManager.activeRound = round
-//        shouldNavigate = true
-//        logger.log("Active Round Set: \(logger.formatOptional(roundManager.activeRound?.course.id)) - \(logger.formatOptional(roundManager.activeRound?.date.formatted(date: .abbreviated, time: .omitted)))")
-//        logger.log("Should Navigate: \(shouldNavigate)")
-//    }
-    
 }
+    
+
 
 #Preview {
     CourseOverviewView(course: CourseViewModel(course: PreviewData.Courses.sample))

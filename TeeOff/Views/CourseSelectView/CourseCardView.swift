@@ -101,9 +101,6 @@ struct CourseCardView: View {
         }
         .font(.system(size: 18))
         .buttonStyle(.borderedProminent)
-        .onTapGesture {
-            logger.log("Navigating to: \(course.name) Details", level: .info)
-        }
     }
 }
     

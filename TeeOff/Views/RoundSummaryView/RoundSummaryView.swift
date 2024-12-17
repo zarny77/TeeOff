@@ -13,14 +13,19 @@ struct RoundSummaryView: View {
     // MARK: - Properties
     let columnLayout = Array(repeating: GridItem(.flexible(), spacing: 10), count: 2)
     private let logger = Logger(origin: "RoundSummaryView")
-    @Bindable var round: RoundViewModel
+    let round: RoundViewModel
     
     // MARK: - Body
     var body: some View {
-        
         ScrollView{
             SummaryDetailsView(round: round)
             scorecardGrid
+        }
+        .onAppear {
+            logger.log("RoundSummaryView appeared with round: \(round.totalScore)", level: .success)
+        }
+        .task {
+            logger.log("RoundSummaryView task started")
         }
     }
     

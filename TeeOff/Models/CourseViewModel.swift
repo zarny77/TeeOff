@@ -18,6 +18,10 @@ class CourseViewModel {
     // MARK: - Computed Properties
     
     // Basics
+    var courseModel: CourseModel {
+        course
+    }
+    
     var name: String {
         course.name
     }

@@ -9,9 +9,9 @@ import SwiftUI
 
 struct SummaryDetailsView: View {
     
-    private let logger = Logger(origin: "RoundSummaryView")
+    private let logger = Logger(origin: "SummaryDetailsView")
     
-    @Bindable var round: RoundViewModel
+    let round: RoundViewModel
     
     private var scoreColour: Color {
         switch round.scoreRelativeToPar {
@@ -59,7 +59,6 @@ struct SummaryDetailsView: View {
                         .font(.system(size: 50))
                         .fontWeight(.black)
                         .minimumScaleFactor(0.5)
-
                 }
                 .frame(width: 100)
             }
