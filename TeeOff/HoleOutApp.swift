@@ -9,9 +9,22 @@ import SwiftUI
 
 @main
 struct HoleOutApp: App {
+    let container: ModelContainer
+    
+    init() {
+        do {
+            let config = ModelConfiguration(isStoredInMemoryOnly: false)
+            container = try ModelContainer(for: RoundModel.self, CourseModel.self, HoleModel.self, config)
+        } catch {
+            fatalError("Failed to initialize ModelContainer: \(error.localizedDescription)")
+        }
+    }
+
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(container)
     }
 }

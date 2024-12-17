@@ -15,6 +15,10 @@ struct CourseOverviewView: View {
     private let logger = Logger(origin: "CourseOverviewView")
     
     let course: CourseViewModel
+
+    let round = RoundViewModel.createRound(for: course.course, modelContext: modelContext)
+    
+
     
     // MARK: - Properties
     
@@ -39,29 +43,29 @@ struct CourseOverviewView: View {
         }
         .cornerRadius(12)
         .padding(.horizontal, 10)
-        .navigationDestination(isPresented: $shouldNavigate) {
-            if let round = roundManager.activeRound {
-                ScorecardView(round: round)
-            }
-        }
-        .alert(
-            "Active Round in Progress",
-            isPresented: $showingRoundConflictAlert
-        ) {
-            Button("Continue Active Round", role: .cancel) {
-                shouldNavigate = true
-            }
-            
-            Button("Discard Active Round", role: .destructive) {
-                if let activeRound = roundManager.activeRound {
-                    modelContext.delete(activeRound)
-                }
-                roundManager.activeRound = nil
-                handleRoundStart()
-            }
-        } message: {
-            Text("You have an active round at \(roundManager.activeRound?.course.name ?? "").\n\nWould you like to continue that round or discard it and start a new one?")
-        }
+//        .navigationDestination(isPresented: $shouldNavigate) {
+//            if let round = roundManager.activeRound {
+//                ScorecardView(round: round)
+//            }
+//        }
+//        .alert(
+//            "Active Round in Progress",
+//            isPresented: $showingRoundConflictAlert
+//        ) {
+//            Button("Continue Active Round", role: .cancel) {
+//                shouldNavigate = true
+//            }
+//            
+//            Button("Discard Active Round", role: .destructive) {
+//                if let activeRound = roundManager.activeRound {
+//                    modelContext.delete(activeRound)
+//                }
+//                roundManager.activeRound = nil
+//                handleRoundStart()
+//            }
+//        } message: {
+//            Text("You have an active round at \(roundManager.activeRound?.course.name ?? "").\n\nWould you like to continue that round or discard it and start a new one?")
+//        }
     }
     
     // MARK: - Subviews

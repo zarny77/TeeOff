@@ -11,7 +11,6 @@
 
 // TODO: Round Storage / Save Management
 
-import Foundation
 import SwiftUI
 import SwiftData
 
@@ -82,6 +81,12 @@ class RoundViewModel {
     }
     
     // MARK: - Model Management
+
+    static func createRound(for course: CourseModel, modelContext: ModelContext) -> RoundViewModel {
+        let round = RoundModel(course: course)
+        modelContext.insert(round)
+        save()
+    }
     
     func finishRound() {
         round.finishRound()
@@ -90,7 +95,12 @@ class RoundViewModel {
     
     func deleteRound() {
         modelContext.delete(round)
-        logger.log("Deleted round: \(round.id)", level: .success)
+        do {
+            try save()
+            logger.log("Deleted round: \(round.id)", level: .success)
+        } catch {
+            logger.log("Failed to delete round: \(error.localizedDescription)", level: .error)
+        }
     }
     
     // MARK: - Hole Status
@@ -124,6 +134,7 @@ class RoundViewModel {
     private func save() {
         do {
             try modelContext.save()
+            logger.log("Round saved", level: .success)
         } catch {
             logger.log("Error saving round: \(error.localizedDescription)")
         }
