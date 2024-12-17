@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct HoleOutApp: App {
@@ -14,7 +15,7 @@ struct HoleOutApp: App {
     init() {
         do {
             let config = ModelConfiguration(isStoredInMemoryOnly: false)
-            container = try ModelContainer(for: RoundModel.self, CourseModel.self, HoleModel.self, config)
+            container = try ModelContainer(for: RoundModel.self, CourseModel.self, HoleModel.self, configurations: config)
         } catch {
             fatalError("Failed to initialize ModelContainer: \(error.localizedDescription)")
         }

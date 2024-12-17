@@ -12,21 +12,15 @@
 
 import SwiftUI
 import SwiftData
+
 struct ContentView: View {
 
     @Environment(\.modelContext) private var modelContext
     @Query private var rounds: [RoundModel]
     
     var body: some View {
-        TabView {
+        NavigationStack {
             CourseSelectView()
-                .tabItem {
-                    Label("Courses", systemImage: "list.bullet")
-                }
-            RoundSelectView()
-                .tabItem {
-                    Label("Rounds", systemImage: "list.bullet")
-                }  
         }
     }
 }

@@ -85,22 +85,23 @@ class RoundViewModel {
     static func createRound(for course: CourseModel, modelContext: ModelContext) -> RoundViewModel {
         let round = RoundModel(course: course)
         modelContext.insert(round)
-        save()
+        do {
+            try modelContext.save()
+            Logger(origin: "RoundViewModel").log("Round saved", level: .success)
+        } catch {
+            Logger(origin: "RoundViewModel").log("Failed to save round", level: .error)
+        }
+        return RoundViewModel(round: round, modelContext: modelContext)
     }
     
     func finishRound() {
         round.finishRound()
         save()
+        logger.log("Round finished successfully", level: .success)
     }
     
     func deleteRound() {
         modelContext.delete(round)
-        do {
-            try save()
-            logger.log("Deleted round: \(round.id)", level: .success)
-        } catch {
-            logger.log("Failed to delete round: \(error.localizedDescription)", level: .error)
-        }
     }
     
     // MARK: - Hole Status
